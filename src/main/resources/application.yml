@@ -3,6 +3,15 @@ spring:
   jpa:
     open-in-view: false
 
+jwt:
+  access-token-header: AccessToken
+  refresh-token-header: RefreshToken
+  issuer: waterfogsw
+  prefix: bearer
+  client-secret: ${jwt.token-secret}
+  access-token-expiry-seconds: 1800000
+  refresh-token-expiry-seconds: 1209600000
+
 oauth2:
   clients:
     google:

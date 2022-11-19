@@ -1,4 +1,4 @@
-package com.watefogsw.board.OAuth.util;
+package com.watefogsw.board.oauth.clientRegistration;
 
 import java.util.Map;
 

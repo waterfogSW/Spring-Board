@@ -1,6 +1,6 @@
-package com.watefogsw.board.OAuth.util;
+package com.watefogsw.board.oauth.clientRegistration;
 
-import com.watefogsw.board.OAuth.property.OAuthProperties;
+import com.watefogsw.board.oauth.property.OAuthProperties;
 
 import lombok.Builder;
 

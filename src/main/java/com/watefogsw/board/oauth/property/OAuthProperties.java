@@ -1,4 +1,4 @@
-package com.watefogsw.board.OAuth.property;
+package com.watefogsw.board.oauth.property;
 
 import java.util.HashMap;
 import java.util.Map;

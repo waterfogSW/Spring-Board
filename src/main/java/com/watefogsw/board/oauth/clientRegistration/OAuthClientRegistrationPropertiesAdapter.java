@@ -3,7 +3,7 @@ package com.watefogsw.board.oauth.clientRegistration;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.watefogsw.board.oauth.property.OAuthProperties;
+import com.watefogsw.board.common.property.OAuthProperties;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

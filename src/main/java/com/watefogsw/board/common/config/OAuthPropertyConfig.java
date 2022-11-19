@@ -1,11 +1,11 @@
-package com.watefogsw.board.oauth.property;
+package com.watefogsw.board.common.config;
 
 import java.util.Map;
 
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.watefogsw.board.common.property.OAuthProperties;
 import com.watefogsw.board.oauth.clientRegistration.ClientRegistrationMemoryRepository;
 import com.watefogsw.board.oauth.clientRegistration.ClientRegistrationRepository;
 import com.watefogsw.board.oauth.clientRegistration.OAuthClientRegistration;
@@ -15,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 
 @Configuration
 @RequiredArgsConstructor
-@EnableConfigurationProperties(OAuthProperties.class)
 public class OAuthPropertyConfig {
 
   private final OAuthProperties properties;

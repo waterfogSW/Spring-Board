@@ -1,1 +1,15 @@
 
+spring:
+  jpa:
+    open-in-view: false
+
+oauth2:
+  clients:
+    google:
+      client-id: 54767115914-gcla0mork6h3156h4qcutjerm0mdf4fu.apps.googleusercontent.com
+      client-secret: ${???}
+      redirect-uri: http://localhost:8080/redirect/oauth
+  providers:
+    google:
+      token-uri: https://www.googleapis.com/oauth2/v4/token
+      user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo

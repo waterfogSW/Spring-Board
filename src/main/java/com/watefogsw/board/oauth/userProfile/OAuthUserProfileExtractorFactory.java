@@ -10,7 +10,6 @@ import com.watefogsw.board.oauth.userProfile.extractorStrategy.OAuthUserProfileE
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Component
 public class OAuthUserProfileExtractorFactory {
 
@@ -19,9 +18,6 @@ public class OAuthUserProfileExtractorFactory {
   public OAuthUserProfileExtractorFactory(Set<OAuthUserProfileExtractor> extractorSet) {
     extractors = new HashMap<>();
     initExtractors(extractorSet);
-
-    log.info(extractors.values()
-                       .toString());
   }
 
   public OAuthUserProfileExtractor getExtractor(String provider) {

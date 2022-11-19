@@ -25,30 +25,34 @@ ext {
 
 dependencies {
     //web
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation('org.springframework.boot:spring-boot-starter-web')
+
+    //webclient
+    implementation('org.springframework.boot:spring-boot-starter-webflux')
+    implementation('io.netty:netty-resolver-dns-native-macos:4.1.85.Final:osx-aarch_64')
 
     //jpa
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
 
     //redis
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation('org.springframework.boot:spring-boot-starter-data-redis')
 
     //jwt
-    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    implementation('io.jsonwebtoken:jjwt:0.9.1')
 
     //lombok
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
+    compileOnly('org.projectlombok:lombok')
+    annotationProcessor('org.projectlombok:lombok')
 
     //application config
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor('org.springframework.boot:spring-boot-configuration-processor')
 
     //h2
-    implementation 'com.h2database:h2:2.1.214'
+    implementation('com.h2database:h2:2.1.214')
 
     //test
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
+    testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
 }
 
 tasks.named('test') {

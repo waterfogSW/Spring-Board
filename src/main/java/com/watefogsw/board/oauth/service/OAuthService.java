@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.watefogsw.board.jwt.JwtTokenProvider;
 import com.watefogsw.board.oauth.clientRegistration.ClientRegistrationRepository;
 import com.watefogsw.board.oauth.clientRegistration.OAuthClientRegistration;
 import com.watefogsw.board.oauth.service.dto.LoginResponse;
@@ -21,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class OAuthService {
 
   private final UserRepository userRepository;
+  private final JwtTokenProvider jwtTokenProvider;
   private final ClientRegistrationRepository clientRegistrationRepository;
   private final OAuthAuthorizationServerClient oAuthAuthorizationServerClient;
   private final OAuthUserProfileExtractorFactory oAuthUserProfileExtractorFactory;
@@ -38,7 +40,9 @@ public class OAuthService {
 
     User user = getUser(userProfile);
 
-    //TODO JWT토큰 생성
+    Long userId = user.getId();
+    String accessToken = jwtTokenProvider.createAccessToken(userId.toString());
+    String refreshToken = jwtTokenProvider.createRefreshToken();
 
     //TODO refresh토큰 저장
 

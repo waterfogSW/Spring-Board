@@ -14,8 +14,10 @@ import com.watefogsw.board.oauth.service.dto.OAuthUserProfile;
 
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @Entity
 @Table(name = "`user`")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

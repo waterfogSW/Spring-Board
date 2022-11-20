@@ -12,6 +12,8 @@ import com.watefogsw.board.oauth.clientRegistration.OAuthClientRegistration;
 import com.watefogsw.board.oauth.controller.dto.LoginResponse;
 import com.watefogsw.board.oauth.controller.dto.OAuthTokenResponse;
 import com.watefogsw.board.oauth.controller.dto.OAuthUserProfile;
+import com.watefogsw.board.oauth.controller.dto.TokenRefreshRequest;
+import com.watefogsw.board.oauth.controller.dto.TokenRefreshResponse;
 import com.watefogsw.board.oauth.userProfile.OAuthUserProfileExtractorFactory;
 import com.watefogsw.board.oauth.userProfile.extractorStrategy.OAuthUserProfileExtractor;
 import com.watefogsw.board.user.entity.User;
@@ -64,6 +66,38 @@ public class OAuthService {
                         .accessToken(accessToken)
                         .refreshToken(refreshToken)
                         .build();
+  }
+
+  public TokenRefreshResponse refresh(TokenRefreshRequest request) {
+    String refreshTokenId = jwtTokenProvider.getPayload(request.refreshToken());
+    if(redisTemplate.opsForValue().getAndDelete(refreshTokenId) == null) {
+      throw new RuntimeException();
+    }
+
+    long tokenUserId = Long.parseLong(jwtTokenProvider.getPayload(request.accessToken()));
+
+    User user = userRepository.findById(tokenUserId)
+                              .orElseThrow(() -> new RuntimeException("User not found"));
+
+    Long userId = user.getId();
+    String accessToken = jwtTokenProvider.createAccessToken(Long.toString(userId));
+
+    UUID uuid = UUID.randomUUID();
+    String refreshToken = jwtTokenProvider.createRefreshToken(uuid.toString());
+
+    redisTemplate.opsForValue()
+                 .set(uuid.toString(), refreshToken);
+
+    return TokenRefreshResponse.builder()
+                               .id(user.getId())
+                               .name(user.getName())
+                               .email(user.getEmail())
+                               .imageUrl(user.getImageUrl())
+                               .role(user.getRole())
+                               .tokenType(LOGIN_TOKEN_TYPE)
+                               .accessToken(accessToken)
+                               .refreshToken(refreshToken)
+                               .build();
   }
 
   private OAuthUserProfile getUserProfile(

@@ -30,6 +30,8 @@ public class OAuthService {
   private final OAuthAuthorizationServerClient oAuthAuthorizationServerClient;
   private final OAuthUserProfileExtractorFactory oAuthUserProfileExtractorFactory;
 
+  private static final String LOGIN_TOKEN_TYPE = "Bearer";
+
   public LoginResponse login(
       String provider,
       String code
@@ -52,7 +54,16 @@ public class OAuthService {
     redisTemplate.opsForValue()
                  .set(uuid.toString(), refreshToken);
 
-    return null;
+    return LoginResponse.builder()
+                        .id(user.getId())
+                        .name(user.getName())
+                        .email(user.getEmail())
+                        .imageUrl(user.getImageUrl())
+                        .role(user.getRole())
+                        .tokenType(LOGIN_TOKEN_TYPE)
+                        .accessToken(accessToken)
+                        .refreshToken(refreshToken)
+                        .build();
   }
 
   private OAuthUserProfile getUserProfile(

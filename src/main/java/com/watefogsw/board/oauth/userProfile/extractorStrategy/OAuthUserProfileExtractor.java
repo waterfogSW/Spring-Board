@@ -9,4 +9,5 @@ public interface OAuthUserProfileExtractor {
   OAuthUserProfile extract(Map<String, Object> attributes);
 
   String getExtractorName();
+
 }

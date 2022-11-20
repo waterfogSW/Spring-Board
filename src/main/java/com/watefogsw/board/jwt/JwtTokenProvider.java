@@ -1,7 +1,6 @@
 package com.watefogsw.board.jwt;
 
 import java.util.Date;
-import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 

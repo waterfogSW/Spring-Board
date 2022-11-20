@@ -8,8 +8,6 @@ import org.springframework.stereotype.Component;
 
 import com.watefogsw.board.oauth.userProfile.extractorStrategy.OAuthUserProfileExtractor;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Component
 public class OAuthUserProfileExtractorFactory {
 

@@ -12,14 +12,10 @@ import lombok.NoArgsConstructor;
 public class OAuthClientRegistrationPropertiesAdapter {
 
   public static Map<String, OAuthClientRegistration> getOauthProviders(OAuthProperties properties) {
-    Map<String, OAuthClientRegistration> oauthProvider = new HashMap<>();
-
+    Map<String, OAuthClientRegistration> provider = new HashMap<>();
     properties.getClients()
-              .forEach((key, value) -> oauthProvider.put(key, getOAuthClientRegistration(key, value,
-                                                                                         properties
-              )));
-
-    return oauthProvider;
+              .forEach((k, v) -> provider.put(k, getOAuthClientRegistration(k, v, properties)));
+    return provider;
   }
 
   private static OAuthClientRegistration getOAuthClientRegistration(

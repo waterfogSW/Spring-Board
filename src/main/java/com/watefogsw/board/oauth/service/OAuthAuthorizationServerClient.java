@@ -11,8 +11,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.watefogsw.board.oauth.service.dto.OAuthTokenResponse;
 import com.watefogsw.board.oauth.clientRegistration.OAuthClientRegistration;
+import com.watefogsw.board.oauth.service.dto.OAuthTokenResponse;
 
 @Component
 public class OAuthAuthorizationServerClient {

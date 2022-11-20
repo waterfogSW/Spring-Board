@@ -1,7 +1,9 @@
 package com.watefogsw.board.oauth.service;
 
 import java.util.Map;
+import java.util.UUID;
 
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.watefogsw.board.jwt.JwtTokenProvider;
@@ -23,6 +25,7 @@ public class OAuthService {
 
   private final UserRepository userRepository;
   private final JwtTokenProvider jwtTokenProvider;
+  private final StringRedisTemplate redisTemplate;
   private final ClientRegistrationRepository clientRegistrationRepository;
   private final OAuthAuthorizationServerClient oAuthAuthorizationServerClient;
   private final OAuthUserProfileExtractorFactory oAuthUserProfileExtractorFactory;
@@ -42,9 +45,12 @@ public class OAuthService {
 
     Long userId = user.getId();
     String accessToken = jwtTokenProvider.createAccessToken(userId.toString());
-    String refreshToken = jwtTokenProvider.createRefreshToken();
 
-    //TODO refresh토큰 저장
+    UUID uuid = UUID.randomUUID();
+    String refreshToken = jwtTokenProvider.createRefreshToken(uuid.toString());
+
+    redisTemplate.opsForValue()
+                 .set(uuid.toString(), refreshToken);
 
     return null;
   }

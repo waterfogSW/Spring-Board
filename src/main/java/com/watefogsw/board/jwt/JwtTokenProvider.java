@@ -24,9 +24,8 @@ public class JwtTokenProvider {
     return createToken(payload, properties.accessTokenExpirySeconds());
   }
 
-  public String createRefreshToken() {
-    UUID uuid = UUID.randomUUID();
-    return createToken(uuid.toString(), properties.refreshTokenExpirySeconds());
+  public String createRefreshToken(String payload) {
+    return createToken(payload, properties.refreshTokenExpirySeconds());
   }
 
   private String createToken(

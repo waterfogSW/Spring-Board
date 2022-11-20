@@ -1,13 +1,18 @@
 package com.watefogsw.board.common.config;
 
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+import static io.lettuce.core.ReadFrom.*;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisStaticMasterReplicaConfiguration;
+import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+
+import com.watefogsw.board.common.property.RedisProperties;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,7 +25,18 @@ public class RedisConfig {
 
   @Bean
   public RedisConnectionFactory redisConnectionFactory() {
-    return new LettuceConnectionFactory(redisProperties.getHost(), redisProperties.getPort());
+    LettuceClientConfiguration clientConfig = LettuceClientConfiguration.builder()
+                                                                        .readFrom(REPLICA_PREFERRED)
+                                                                        .build();
+    RedisProperties.RedisInfo masterInfo = redisProperties.master();
+    RedisProperties.RedisInfo slaveInfo = redisProperties.slave();
+
+    RedisStaticMasterReplicaConfiguration redisConfig =
+        new RedisStaticMasterReplicaConfiguration(masterInfo.host(), masterInfo.port());
+
+    redisConfig.addNode(slaveInfo.host(), slaveInfo.port());
+
+    return new LettuceConnectionFactory(redisConfig, clientConfig);
   }
 
   @Bean

@@ -5,11 +5,13 @@ import org.springframework.context.annotation.Configuration;
 
 import com.watefogsw.board.common.property.JwtProperties;
 import com.watefogsw.board.common.property.OAuthProperties;
+import com.watefogsw.board.common.property.RedisProperties;
 
 @Configuration
 @EnableConfigurationProperties({
     OAuthProperties.class,
-    JwtProperties.class
+    JwtProperties.class,
+    RedisProperties.class
 })
 public class PropertyConfig {
 

@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  board-redis-master:
+    container_name: board-redis-master
+    image: redis:latest
+    ports:
+      - "6379:6379"
+  board-redis-slave:
+    container_name: board-redis-slave
+    image: redis:latest
+    ports:
+      - "6479:6379"
+    command: redis-server --slaveof board-redis-master 6379

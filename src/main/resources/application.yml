@@ -2,9 +2,14 @@
 spring:
   jpa:
     open-in-view: false
-  redis:
+
+redis:
+  master:
+    host: 127.0.0.1
     port: 6379
-    host: localhost
+  slave:
+    host: 127.0.0.1
+    port: 6479
 
 jwt:
   access-token-header: AccessToken

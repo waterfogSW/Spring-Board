@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.sun.istack.NotNull;
-import com.watefogsw.board.oauth.service.dto.OAuthUserProfile;
+import com.watefogsw.board.oauth.controller.dto.OAuthUserProfile;
 
 import lombok.AccessLevel;
 import lombok.Builder;

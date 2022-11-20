@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
-import com.watefogsw.board.oauth.service.dto.OAuthUserProfile;
+import com.watefogsw.board.oauth.controller.dto.OAuthUserProfile;
 
 @Component
 public class GoogleOAuthUserProfileExtractor implements OAuthUserProfileExtractor {

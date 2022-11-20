@@ -2,7 +2,7 @@ package com.watefogsw.board.oauth.userProfile.extractorStrategy;
 
 import java.util.Map;
 
-import com.watefogsw.board.oauth.service.dto.OAuthUserProfile;
+import com.watefogsw.board.oauth.controller.dto.OAuthUserProfile;
 
 public interface OAuthUserProfileExtractor {
 

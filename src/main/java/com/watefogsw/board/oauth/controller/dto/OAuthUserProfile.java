@@ -1,4 +1,4 @@
-package com.watefogsw.board.oauth.service.dto;
+package com.watefogsw.board.oauth.controller.dto;
 
 import lombok.Builder;
 

@@ -12,8 +12,7 @@ public record TokenRefreshResponse(
     String imageUrl,
     Role role,
     String tokenType,
-    String accessToken,
-    String refreshToken
+    String accessToken
 ) {
 
 }

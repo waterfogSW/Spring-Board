@@ -12,13 +12,14 @@ import com.waterfogsw.board.auth.oauth.clientRegistration.OAuthClientRegistratio
 import com.waterfogsw.board.auth.oauth.controller.dto.LoginResponse;
 import com.waterfogsw.board.auth.oauth.controller.dto.OAuthTokenResponse;
 import com.waterfogsw.board.auth.oauth.controller.dto.OAuthUserProfile;
+import com.waterfogsw.board.auth.oauth.controller.dto.TokenRefreshRequest;
 import com.waterfogsw.board.auth.oauth.controller.dto.TokenRefreshResponse;
 import com.waterfogsw.board.auth.oauth.userProfile.OAuthUserProfileExtractorFactory;
 import com.waterfogsw.board.auth.oauth.userProfile.extractorStrategy.OAuthUserProfileExtractor;
-import com.waterfogsw.board.auth.oauth.controller.dto.TokenRefreshRequest;
-import com.waterfogsw.board.core.user.domain.User;
 import com.waterfogsw.board.auth.user.domain.UserRepository;
+import com.waterfogsw.board.core.user.domain.User;
 
+import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -71,8 +72,8 @@ public class OAuthService {
   public TokenRefreshResponse refresh(TokenRefreshRequest request) {
     String refreshTokenId = jwtTokenProvider.getPayload(request.refreshToken());
     if (redisTemplate.opsForValue()
-                     .getAndDelete(refreshTokenId) == null) {
-      throw new RuntimeException();
+                     .get(refreshTokenId) == null) {
+      throw new JwtException("Refresh token not found");
     }
 
     long tokenUserId = Long.parseLong(jwtTokenProvider.getPayload(request.accessToken()));
@@ -83,12 +84,6 @@ public class OAuthService {
     Long userId = user.getId();
     String accessToken = jwtTokenProvider.createAccessToken(Long.toString(userId));
 
-    UUID uuid = UUID.randomUUID();
-    String refreshToken = jwtTokenProvider.createRefreshToken(uuid.toString());
-
-    redisTemplate.opsForValue()
-                 .set(uuid.toString(), refreshToken);
-
     return TokenRefreshResponse.builder()
                                .id(user.getId())
                                .name(user.getName())
@@ -97,7 +92,6 @@ public class OAuthService {
                                .role(user.getRole())
                                .tokenType(LOGIN_TOKEN_TYPE)
                                .accessToken(accessToken)
-                               .refreshToken(refreshToken)
                                .build();
   }
 
@@ -131,7 +125,10 @@ public class OAuthService {
     return userRepository.save(user);
   }
 
-  private User updateUser(User user, OAuthUserProfile userProfile) {
+  private User updateUser(
+      User user,
+      OAuthUserProfile userProfile
+  ) {
     return user.update(userProfile.email(), userProfile.name(), userProfile.imageUrl());
   }
 

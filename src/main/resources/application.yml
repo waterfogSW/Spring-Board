@@ -11,15 +11,15 @@ jwt:
   refresh-token-header: RefreshToken
   issuer: waterfogsw
   prefix: bearer
-  client-secret: ${jwt.token-secret}
+  client-secret: ${jwt.client-secret}
   access-token-expiry-seconds: 1800000
   refresh-token-expiry-seconds: 1209600000
 
 oauth2:
   clients:
     google:
-      client-id: 54767115914-gcla0mork6h3156h4qcutjerm0mdf4fu.apps.googleusercontent.com
-      client-secret: ${???}
+      client-id: 843006986889-onjkm3cerb7n62vktp76mre0tk7cpoqs.apps.googleusercontent.com
+      client-secret: ${oauth2.clients.google.client-secret}
       redirect-uri: http://localhost:8080/redirect/oauth
   providers:
     google:

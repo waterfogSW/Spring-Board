@@ -5,62 +5,46 @@ plugins {
     id 'org.asciidoctor.convert' version '1.5.8'
 }
 
-group = 'com.example'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
-
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
+allprojects {
+    repositories {
+        mavenCentral()
     }
 }
 
-repositories {
-    mavenCentral()
-}
+subprojects {
+    group 'org.waterfogsw'
+    version '1.0-SNAPSHOT'
+    sourceCompatibility = '17'
 
-ext {
-    set('snippetsDir', file("build/generated-snippets"))
-}
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'org.asciidoctor.convert'
 
-dependencies {
-    //web
-    implementation('org.springframework.boot:spring-boot-starter-web')
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
 
-    //webclient
-    implementation('org.springframework.boot:spring-boot-starter-webflux')
-    implementation('io.netty:netty-resolver-dns-native-macos:4.1.85.Final:osx-aarch_64')
+    ext {
+        set('snippetsDir', file("build/generated-snippets"))
+    }
 
-    //jpa
-    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+    dependencies {
+        compileOnly('org.projectlombok:lombok')
+        annotationProcessor('org.projectlombok:lombok')
+        testImplementation('org.springframework.boot:spring-boot-starter-test')
+    }
 
-    //redis
-    implementation('org.springframework.boot:spring-boot-starter-data-redis')
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
 
-    //jwt
-    implementation('io.jsonwebtoken:jjwt:0.9.1')
+    tasks.named('asciidoctor') {
+        inputs.dir snippetsDir
+        dependsOn test
+    }
 
-    //lombok
-    compileOnly('org.projectlombok:lombok')
-    annotationProcessor('org.projectlombok:lombok')
-
-    //application config
-    annotationProcessor('org.springframework.boot:spring-boot-configuration-processor')
-
-    //h2
-    implementation('com.h2database:h2:2.1.214')
-
-    //test
-    testImplementation('org.springframework.boot:spring-boot-starter-test')
-    testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
-}
-
-tasks.named('test') {
-    outputs.dir snippetsDir
-    useJUnitPlatform()
-}
-
-tasks.named('asciidoctor') {
-    inputs.dir snippetsDir
-    dependsOn test
 }

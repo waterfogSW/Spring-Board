@@ -1,0 +1,5 @@
+dependencies {
+    implementation project(':board-core')
+
+    implementation('org.springframework.boot:spring-boot-starter-web')
+}

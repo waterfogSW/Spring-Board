@@ -17,6 +17,7 @@ import com.waterfogsw.board.auth.oauth.controller.dto.TokenRefreshResponse;
 import com.waterfogsw.board.auth.oauth.userProfile.OAuthUserProfileExtractorFactory;
 import com.waterfogsw.board.auth.oauth.userProfile.extractorStrategy.OAuthUserProfileExtractor;
 import com.waterfogsw.board.auth.user.domain.UserRepository;
+import com.waterfogsw.board.core.user.domain.Role;
 import com.waterfogsw.board.core.user.domain.User;
 
 import io.jsonwebtoken.JwtException;
@@ -121,6 +122,7 @@ public class OAuthService {
                     .email(userProfile.email())
                     .name(userProfile.name())
                     .imageUrl(userProfile.imageUrl())
+                    .role(Role.USER)
                     .build();
     return userRepository.save(user);
   }

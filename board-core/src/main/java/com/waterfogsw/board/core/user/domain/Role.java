@@ -1,7 +1,16 @@
 package com.waterfogsw.board.core.user.domain;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 public enum Role {
 
-  ADMIN, USER
+  ADMIN(1), USER(2);
+
+  private final int priority;
+
+  public boolean hasAuthority(Role required) {
+    return required.priority >= this.priority;
+  }
 
 }

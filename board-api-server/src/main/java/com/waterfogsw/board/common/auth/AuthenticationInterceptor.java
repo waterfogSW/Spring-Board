@@ -53,7 +53,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
       throw new AuthenticationException();
     }
 
-    AuthenticationHolder.setAuthentication(authentication);
+    AuthenticationContextHolder.setAuthentication(authentication);
 
     return true;
   }

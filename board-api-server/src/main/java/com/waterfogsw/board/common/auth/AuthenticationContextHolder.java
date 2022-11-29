@@ -1,6 +1,6 @@
 package com.waterfogsw.board.common.auth;
 
-public class AuthenticationHolder {
+public class AuthenticationContextHolder {
 
   private static final ThreadLocal<Authentication> authenticationHolder = new ThreadLocal<>();
 

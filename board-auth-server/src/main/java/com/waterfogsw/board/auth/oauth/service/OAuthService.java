@@ -40,8 +40,7 @@ public class OAuthService {
       String provider,
       String code
   ) {
-    OAuthClientRegistration registration =
-        clientRegistrationRepository.findByProviderName(provider);
+    OAuthClientRegistration registration = clientRegistrationRepository.findByProviderName(provider);
 
     OAuthTokenResponse tokenResponse = oAuthAuthorizationServerClient.getToken(code, registration);
 
@@ -49,8 +48,7 @@ public class OAuthService {
 
     User user = getUser(userProfile);
 
-    Long userId = user.getId();
-    String accessToken = jwtTokenProvider.createAccessToken(userId.toString());
+    String accessToken = jwtTokenProvider.createAccessToken(user);
 
     UUID uuid = UUID.randomUUID();
     String refreshToken = jwtTokenProvider.createRefreshToken(uuid.toString());
@@ -82,8 +80,7 @@ public class OAuthService {
     User user = userRepository.findById(tokenUserId)
                               .orElseThrow(() -> new RuntimeException("User not found"));
 
-    Long userId = user.getId();
-    String accessToken = jwtTokenProvider.createAccessToken(Long.toString(userId));
+    String accessToken = jwtTokenProvider.createAccessToken(user);
 
     return TokenRefreshResponse.builder()
                                .id(user.getId())

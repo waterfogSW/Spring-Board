@@ -7,7 +7,7 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-data-redis')
     implementation('io.netty:netty-resolver-dns-native-macos:4.1.85.Final:osx-aarch_64')
     implementation('io.jsonwebtoken:jjwt:0.9.1')
-    implementation('com.h2database:h2:2.1.214')
+    runtimeOnly('com.mysql:mysql-connector-j:8.0.31')
     annotationProcessor('org.springframework.boot:spring-boot-configuration-processor')
     testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
 }

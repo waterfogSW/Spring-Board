@@ -1,7 +1,19 @@
+server:
+  port: 8080
 
 spring:
   jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: create-drop
     open-in-view: false
+    properties:
+      hibernate.format_sql: true
+      dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  datasource:
+    url: ${db.url}
+    username: ${db.username}
+    password: ${db.password}
 
 redis:
   master:

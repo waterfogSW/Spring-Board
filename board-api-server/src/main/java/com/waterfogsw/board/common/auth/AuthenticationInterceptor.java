@@ -19,10 +19,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthenticationInterceptor implements HandlerInterceptor {
 
-  private final AuthenticationTokenResolver authenticationTokenResolver;
-
-  private static final String TOKEN_HEADER = "Authorization";
-
   @Override
   public boolean preHandle(
       HttpServletRequest request,
@@ -37,13 +33,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
       return true;
     }
 
-    String token = extractTokenFromHeader(request);
-
-    if (!authenticationTokenResolver.validateToken(token)) {
-      throw new AuthenticationException();
-    }
-
-    Authentication authentication = authenticationTokenResolver.getAuthentication(token);
+    Authentication authentication = AuthenticationContextHolder.getAuthentication();
     Role clientRole = authentication.role();
     Role handlerRole = getMethodRole(handlerMethod);
 
@@ -73,20 +63,6 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
   private boolean isNeedsAuthorization(HandlerMethod handlerMethod) {
     return handlerMethod.getMethodAnnotation(Auth.class) == null;
-  }
-
-  private String extractTokenFromHeader(HttpServletRequest request) {
-    String authorization = request.getHeader(TOKEN_HEADER);
-    if (authorization == null) {
-      throw new AuthenticationException();
-    }
-
-    try {
-      return authorization.split(" ")[1];
-
-    } catch (Exception e) {
-      throw new AuthenticationException();
-    }
   }
 
 }

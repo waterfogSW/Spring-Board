@@ -8,7 +8,6 @@ import com.waterfogsw.board.common.property.JwtProperties;
 import com.waterfogsw.board.core.user.domain.Role;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 
@@ -32,14 +31,9 @@ public class AuthenticationTokenResolver {
     return new Authentication(userId, role);
   }
 
-  public boolean validateToken(String token) {
-    try {
-      return getClaims(token)
-          .getExpiration()
-          .after(new Date());
-    } catch (JwtException | IllegalArgumentException e) {
-      return false;
-    }
+  public boolean isTokenExpired(String token) {
+    return getClaims(token).getExpiration()
+                           .after(new Date());
   }
 
   private Claims getClaims(String token) {

@@ -12,7 +12,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.waterfogsw.board.auth.oauth.clientRegistration.OAuthClientRegistration;
-import com.waterfogsw.board.auth.oauth.controller.dto.OAuthTokenResponse;
+import com.waterfogsw.board.auth.oauth.dto.OAuthTokenResponse;
 
 @Component
 public class OAuthAuthorizationServerClient {

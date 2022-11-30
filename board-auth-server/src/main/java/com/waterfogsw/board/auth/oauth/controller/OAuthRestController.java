@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.waterfogsw.board.auth.oauth.controller.dto.LoginResponse;
-import com.waterfogsw.board.auth.oauth.controller.dto.TokenRefreshResponse;
+import com.waterfogsw.board.auth.oauth.dto.LoginResponse;
+import com.waterfogsw.board.auth.oauth.dto.TokenRefreshResponse;
 import com.waterfogsw.board.auth.oauth.service.OAuthService;
-import com.waterfogsw.board.auth.oauth.controller.dto.TokenRefreshRequest;
+import com.waterfogsw.board.auth.oauth.dto.TokenRefreshRequest;
 
 import lombok.RequiredArgsConstructor;
 

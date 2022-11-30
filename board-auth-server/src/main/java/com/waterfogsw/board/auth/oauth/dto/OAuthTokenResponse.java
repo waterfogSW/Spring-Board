@@ -1,4 +1,4 @@
-package com.waterfogsw.board.auth.oauth.controller.dto;
+package com.waterfogsw.board.auth.oauth.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.waterfogsw.board.common.exception.AuthenticationException;
 import com.waterfogsw.board.core.user.domain.Role;
@@ -56,6 +57,16 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     AuthenticationContextHolder.setAuthentication(authentication);
 
     return true;
+  }
+
+  @Override
+  public void postHandle(
+      HttpServletRequest request,
+      HttpServletResponse response,
+      Object handler,
+      ModelAndView modelAndView
+  ) {
+    AuthenticationContextHolder.clearContext();
   }
 
   private Role getMethodRole(HandlerMethod handlerMethod) {

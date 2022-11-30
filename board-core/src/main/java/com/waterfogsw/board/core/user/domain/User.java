@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.sun.istack.NotNull;
+import com.waterfogsw.board.core.common.entity.BaseTime;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -20,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "`user`")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User {
+public class User extends BaseTime {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

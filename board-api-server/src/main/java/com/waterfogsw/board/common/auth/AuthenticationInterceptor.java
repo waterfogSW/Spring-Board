@@ -1,6 +1,5 @@
 package com.waterfogsw.board.common.auth;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,9 +14,7 @@ import com.waterfogsw.board.common.exception.AuthenticationException;
 import com.waterfogsw.board.core.user.domain.Role;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class AuthenticationInterceptor implements HandlerInterceptor {
@@ -31,7 +28,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
       HttpServletRequest request,
       HttpServletResponse response,
       Object handler
-  ) throws Exception {
+  ) {
     if (!(handler instanceof HandlerMethod handlerMethod)) {
       return true;
     }
@@ -85,7 +82,6 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     }
 
     try {
-      log.info(Arrays.toString(authorization.split(" ")));
       return authorization.split(" ")[1];
 
     } catch (Exception e) {

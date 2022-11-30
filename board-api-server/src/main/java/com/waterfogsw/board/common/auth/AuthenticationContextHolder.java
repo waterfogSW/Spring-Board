@@ -10,8 +10,8 @@ public class AuthenticationContextHolder {
 
   public static Authentication getAuthentication() {
     Authentication authentication = authenticationHolder.get();
-    if(authentication == null) {
-      authentication = createEmptyAuthentication();
+    if (authentication == null) {
+      authentication = Authentication.createEmptyAuthentication();
       authenticationHolder.set(authentication);
     }
     return authentication;
@@ -19,11 +19,6 @@ public class AuthenticationContextHolder {
 
   public static void setAuthentication(Authentication authentication) {
     authenticationHolder.set(authentication);
-  }
-
-
-  private static Authentication createEmptyAuthentication() {
-    return new Authentication(0L, null);
   }
 
 }

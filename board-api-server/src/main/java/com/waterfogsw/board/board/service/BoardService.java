@@ -3,7 +3,7 @@ package com.waterfogsw.board.board.service;
 import org.springframework.stereotype.Service;
 
 import com.waterfogsw.board.board.dto.BoardCreateRequest;
-import com.waterfogsw.board.board.repository.BoardRepository;
+import com.waterfogsw.board.core.board.repository.BoardRepository;
 import com.waterfogsw.board.core.board.domain.Board;
 import com.waterfogsw.board.core.user.domain.User;
 import com.waterfogsw.board.user.service.UserService;

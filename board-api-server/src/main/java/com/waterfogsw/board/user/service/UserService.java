@@ -6,7 +6,7 @@ import com.waterfogsw.board.common.auth.Authentication;
 import com.waterfogsw.board.common.auth.AuthenticationContextHolder;
 import com.waterfogsw.board.common.exception.NotFoundException;
 import com.waterfogsw.board.core.user.domain.User;
-import com.waterfogsw.board.user.repository.UserRepository;
+import com.waterfogsw.board.core.user.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 

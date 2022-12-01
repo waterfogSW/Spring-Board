@@ -16,9 +16,9 @@ import com.waterfogsw.board.auth.oauth.dto.TokenRefreshRequest;
 import com.waterfogsw.board.auth.oauth.dto.TokenRefreshResponse;
 import com.waterfogsw.board.auth.oauth.userProfile.OAuthUserProfileExtractorFactory;
 import com.waterfogsw.board.auth.oauth.userProfile.extractorStrategy.OAuthUserProfileExtractor;
-import com.waterfogsw.board.auth.user.domain.UserRepository;
 import com.waterfogsw.board.core.user.domain.Role;
 import com.waterfogsw.board.core.user.domain.User;
+import com.waterfogsw.board.core.user.repository.UserRepository;
 
 import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
@@ -98,11 +98,9 @@ public class OAuthService {
       OAuthTokenResponse tokenResponse,
       OAuthClientRegistration registration
   ) {
-    Map<String, Object> userAttributes =
-        oAuthAuthorizationServerClient.getUserAttributes(registration, tokenResponse);
+    Map<String, Object> userAttributes = oAuthAuthorizationServerClient.getUserAttributes(registration, tokenResponse);
 
-    OAuthUserProfileExtractor extractor =
-        oAuthUserProfileExtractorFactory.getExtractor(provider);
+    OAuthUserProfileExtractor extractor = oAuthUserProfileExtractorFactory.getExtractor(provider);
 
     return extractor.extract(userAttributes);
   }

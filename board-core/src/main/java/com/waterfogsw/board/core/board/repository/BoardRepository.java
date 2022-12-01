@@ -1,4 +1,4 @@
-package com.waterfogsw.board.board.repository;
+package com.waterfogsw.board.core.board.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

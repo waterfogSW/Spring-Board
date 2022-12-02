@@ -11,15 +11,17 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.waterfogsw.board.board.dto.BoardCreateRequest;
-import com.waterfogsw.board.board.dto.BoardPageRequest;
-import com.waterfogsw.board.board.dto.BoardPageResponse;
+import com.waterfogsw.board.board.dto.BoardSearchRequest;
+import com.waterfogsw.board.board.dto.BoardSearchResponse;
 import com.waterfogsw.board.board.service.BoardQueryService;
 import com.waterfogsw.board.board.service.BoardService;
 import com.waterfogsw.board.common.auth.Auth;
 import com.waterfogsw.board.core.user.domain.Role;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/boards")
@@ -37,8 +39,8 @@ public class BoardRestController {
 
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
-  public List<BoardPageResponse> getPageOfBoard(BoardPageRequest request) {
-    return boardQueryService.getPageOfBoard(request);
+  public List<BoardSearchResponse> getSliceOfBoard(BoardSearchRequest request) {
+    return boardQueryService.getSliceOfBoard(request);
   }
 
 }

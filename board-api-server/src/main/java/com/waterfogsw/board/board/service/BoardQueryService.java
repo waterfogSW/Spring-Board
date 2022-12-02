@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.waterfogsw.board.board.dto.BoardPageRequest;
-import com.waterfogsw.board.board.dto.BoardPageResponse;
+import com.waterfogsw.board.board.dto.BoardSearchRequest;
+import com.waterfogsw.board.board.dto.BoardSearchResponse;
 import com.waterfogsw.board.core.board.repository.BoardQueryRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -16,10 +16,10 @@ public class BoardQueryService {
 
   private final BoardQueryRepository boardQueryRepository;
 
-  public List<BoardPageResponse> getPageOfBoard(BoardPageRequest request) {
-    return boardQueryRepository.getPageOfBoard(request.id(), request.pageSize())
+  public List<BoardSearchResponse> getSliceOfBoard(BoardSearchRequest request) {
+    return boardQueryRepository.getSliceOfBoard(request.id(), request.size(), request.keyword())
                                .stream()
-                               .map(BoardPageResponse::from)
+                               .map(BoardSearchResponse::from)
                                .toList();
   }
 

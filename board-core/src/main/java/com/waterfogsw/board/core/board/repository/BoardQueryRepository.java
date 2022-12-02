@@ -28,22 +28,23 @@ public class BoardQueryRepository {
       String keyword
   ) {
     return jpaQueryFactory.selectFrom(board)
-                          .where(
-                              ltBoardId(id),
-                              containsTitle(keyword),
-                              containsDescription(keyword)
-                          )
+                          .where(ltBoardId(id), search(keyword))
                           .orderBy(board.id.desc())
                           .limit(size)
                           .fetch();
   }
 
+  @SuppressWarnings("all")
+  private BooleanExpression search(String keyword) {
+    return hasText(keyword) ? containsTitle(keyword).or(containsDescription(keyword)) : null;
+  }
+
   private BooleanExpression containsTitle(@Nullable String title) {
-    return hasText(title) ? board.title.containsIgnoreCase(title) : null;
+    return hasText(title) ? board.title.contains(title) : null;
   }
 
   private BooleanExpression containsDescription(@Nullable String description) {
-    return hasText(description) ? board.description.containsIgnoreCase(description) : null;
+    return hasText(description) ? board.description.contains(description) : null;
   }
 
   private BooleanExpression ltBoardId(@Nullable Long id) {

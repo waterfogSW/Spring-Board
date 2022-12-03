@@ -1,6 +1,5 @@
 package com.waterfogsw.board.auth.oauth.clientRegistration;
 
-
 import com.waterfogsw.board.auth.common.property.OAuthProperties;
 
 import lombok.Builder;
@@ -18,13 +17,12 @@ public record OAuthClientRegistration(
       OAuthProperties.Client client,
       OAuthProperties.Provider provider
   ) {
-    return builder()
-                                  .clientId(client.clientId())
-                                  .clientSecret(client.clientSecret())
-                                  .redirectUrl(client.redirectUri())
-                                  .tokenUrl(provider.tokenUri())
-                                  .userInfoUrl(provider.userInfoUri())
-                                  .build();
+    return builder().clientId(client.clientId())
+                    .clientSecret(client.clientSecret())
+                    .redirectUrl(client.redirectUri())
+                    .tokenUrl(provider.tokenUri())
+                    .userInfoUrl(provider.userInfoUri())
+                    .build();
   }
 
 }

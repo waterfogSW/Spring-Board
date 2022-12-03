@@ -10,16 +10,16 @@ public record BoardSearchRequest(
     String keyword
 ) {
 
-    public BoardSearchRequest(
-        @Nullable
-        Long id,
-        Integer size,
-        @Nullable
-        String keyword
-    ) {
-        this.id = id;
-        this.size = size == null ? 10 : size;
-        this.keyword = keyword;
-    }
+  public BoardSearchRequest(
+      @Nullable
+      Long id,
+      Integer size,
+      @Nullable
+      String keyword
+  ) {
+    this.id = id;
+    this.size = size == null ? 10 : size;
+    this.keyword = keyword;
+  }
 
 }

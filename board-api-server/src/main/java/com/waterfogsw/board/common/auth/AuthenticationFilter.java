@@ -46,7 +46,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
   private String extractTokenFromHeader(HttpServletRequest request) {
     String authorization = request.getHeader(TOKEN_HEADER);
-    if(authorization == null) {
+    if (authorization == null) {
       throw new IllegalArgumentException("Token not found");
     }
     try {

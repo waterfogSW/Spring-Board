@@ -1,9 +1,11 @@
 package com.waterfogsw.board.core.board.repository;
 
 import static com.waterfogsw.board.core.board.domain.QBoard.*;
+import static com.waterfogsw.board.core.user.domain.QUser.*;
 import static org.springframework.util.StringUtils.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
@@ -19,6 +21,17 @@ import lombok.RequiredArgsConstructor;
 public class BoardQueryRepository {
 
   private final JPAQueryFactory jpaQueryFactory;
+
+  public Optional<Board> getDetail(long id) {
+    Board result = jpaQueryFactory.selectFrom(board)
+                                  .where(board.id.eq(id))
+                                  .join(board.creator, user)
+                                  .fetchJoin()
+                                  .distinct()
+                                  .fetchOne();
+
+    return Optional.ofNullable(result);
+  }
 
   public List<Board> getSliceOfBoard(
       @Nullable

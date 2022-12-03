@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.waterfogsw.board.board.dto.BoardCreateRequest;
+import com.waterfogsw.board.board.dto.BoardGetDetailResponse;
 import com.waterfogsw.board.board.dto.BoardSearchRequest;
 import com.waterfogsw.board.board.dto.BoardSearchResponse;
 import com.waterfogsw.board.board.dto.BoardUpdateRequest;
@@ -39,6 +40,12 @@ public class BoardRestController {
   @ResponseStatus(HttpStatus.CREATED)
   public void create(@RequestBody BoardCreateRequest request) {
     boardCommandService.create(request);
+  }
+
+  @GetMapping("{id}")
+  @ResponseStatus(HttpStatus.OK)
+  public BoardGetDetailResponse getDetail(@PathVariable long id) {
+    return boardQueryService.getDetail(id);
   }
 
   @Auth(role = Role.USER)

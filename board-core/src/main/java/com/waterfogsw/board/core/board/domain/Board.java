@@ -2,7 +2,6 @@ package com.waterfogsw.board.core.board.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,7 +30,7 @@ public class Board extends BaseTime {
   @Column(length = 200)
   private String description;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne
   private User creator;
 
   @Builder
@@ -43,6 +42,14 @@ public class Board extends BaseTime {
     this.title = title;
     this.description = description;
     this.creator = creator;
+  }
+
+  public void update(
+      String title,
+      String description
+  ) {
+    this.title = title;
+    this.description = description;
   }
 
 }

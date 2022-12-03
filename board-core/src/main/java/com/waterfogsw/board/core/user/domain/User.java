@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.sun.istack.NotNull;
+import com.waterfogsw.board.core.board.domain.Board;
 import com.waterfogsw.board.core.common.entity.BaseTime;
 
 import lombok.AccessLevel;
@@ -64,6 +65,25 @@ public class User extends BaseTime {
     this.name = name;
     this.imageUrl = imageUrl;
     return this;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
+    User user = (User)o;
+    return id.equals(user.id);
+  }
+
+  @Override
+  public int hashCode() {
+    return id.hashCode();
+  }
+
+  public boolean isMyBoard(Board board) {
+    return this.equals(board.getCreator());
   }
 
 }

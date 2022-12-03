@@ -3,6 +3,7 @@ package com.waterfogsw.board.board.controller;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,12 +45,19 @@ public class BoardRestController {
   @PutMapping("{id}")
   @ResponseStatus(HttpStatus.OK)
   public void update(
-      @PathVariable(name = "id")
+      @PathVariable
       long id,
       @RequestBody
       BoardUpdateRequest reqeust
   ) {
     boardCommandService.update(id, reqeust);
+  }
+
+  @Auth(role = Role.USER)
+  @DeleteMapping("{id}")
+  @ResponseStatus(HttpStatus.OK)
+  public void delete(@PathVariable long id) {
+    boardCommandService.delete(id);
   }
 
   @GetMapping

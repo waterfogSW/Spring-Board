@@ -49,6 +49,15 @@ public class BoardCommandService {
     board.update(request.title(), request.description());
   }
 
+  public void delete(long id) {
+    User user = userService.getCurrentUser();
+    Board board = boardRepository.findById(id)
+                                 .orElseThrow(() -> new NotFoundException("Board not found"));
+
+    checkBoardOwner(user, board);
+    boardRepository.delete(board);
+  }
+
   private void checkBoardOwner(
       User user,
       Board board

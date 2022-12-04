@@ -11,9 +11,9 @@ spring:
       hibernate.format_sql: true
       dialect: org.hibernate.dialect.MySQL5InnoDBDialect
   datasource:
-    url: ${db.url}
-    username: ${db.username}
-    password: ${db.password}
+    url: ${datasource_url}
+    username: ${datasource_username}
+    password: ${datasource_password}
 
 redis:
   master:
@@ -28,7 +28,7 @@ jwt:
   refresh-token-header: RefreshToken
   issuer: waterfogsw
   prefix: bearer
-  client-secret: ${jwt.client-secret}
+  client-secret: ${token_client_secret}
   access-token-expiry-seconds: 1800000
   refresh-token-expiry-seconds: 1209600000
 
@@ -36,7 +36,7 @@ oauth2:
   clients:
     google:
       client-id: 843006986889-onjkm3cerb7n62vktp76mre0tk7cpoqs.apps.googleusercontent.com
-      client-secret: ${oauth2.clients.google.client-secret}
+      client-secret: ${google_client_secret}
       redirect-uri: http://localhost:8080/redirect/oauth
   providers:
     google:

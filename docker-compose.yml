@@ -1,10 +1,63 @@
 version: '3.8'
 services:
-  mysql:
-    image: mysql:8.0
-    container_name: mysql
+  mysql-db:
+    container_name: mysql-db
+    image: mysql/mysql-server:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${datasource_password}
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: "board"
+      TZ: Asia/Seoul
+    volumes:
+      - ./mysql-init.d:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+
+  token-redis-master:
+    container_name: token-redis-master
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
+  token-redis-slave:
+    container_name: token-redis-slave
+    image: redis:latest
+    ports:
+      - "6479:6379"
+    command: redis-server --slaveof token-redis-master 6379
+    depends_on:
+      - token-redis-master
+
+  board-api-server:
+    container_name: board-api-server
+    build: board-api-server/.
     environment:
-      MYSQL_ROOT_PASSWORD: admin
-      MYSQL_DATABASE: "board"
+      SPRING_DATASOURCE_URL: ${datasource_url}
+      SPRING_DATASOURCE_USERNAME: ${datasource_username}
+      SPRING_DATASOURCE_PASSWORD: ${datasource_password}
+      JWT_CLIENT_SECRET: ${token_client_secret}
+    ports:
+      - "8081:8081"
+    restart: always
+    depends_on:
+      - mysql-db
+
+  board-auth-server:
+    container_name: board-auth-server
+    build: board-auth-server/.
+    environment:
+      SPRING_DATASOURCE_URL: ${datasource_url}
+      SPRING_DATASOURCE_USERNAME: ${datasource_username}
+      SPRING_DATASOURCE_PASSWORD: ${datasource_password}
+      JWT_CLIENT_SECRET: ${token_client_secret}
+      OAUTH2_CLIENTS_GOOGLE_CLIENT-SECRET: ${google_client_secret}
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - token-redis-master
+      - token-redis-slave
+      - mysql-db

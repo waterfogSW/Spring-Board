@@ -49,6 +49,7 @@ public class BoardCommandService {
     board.update(request.title(), request.description());
   }
 
+  @Transactional
   public void delete(long id) {
     User user = userService.getCurrentUser();
     Board board = boardRepository.findById(id)

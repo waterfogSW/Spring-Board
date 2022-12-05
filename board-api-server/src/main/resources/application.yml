@@ -9,7 +9,7 @@ spring:
     open-in-view: false
     properties:
       hibernate.format_sql: true
-      dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+      dialect: org.hibernate.dialect.MySQL8Dialect
   datasource:
     url: ${datasource_url}
     username: ${datasource_username}

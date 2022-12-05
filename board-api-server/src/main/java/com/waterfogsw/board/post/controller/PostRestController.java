@@ -1,6 +1,7 @@
 package com.waterfogsw.board.post.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -41,6 +42,13 @@ public class PostRestController {
       PostUpdateRequest request
   ) {
     postCommandService.update(id, request);
+  }
+
+  @Auth(role = Role.USER)
+  @DeleteMapping("{id}")
+  @ResponseStatus(HttpStatus.OK)
+  public void delete(@PathVariable long id) {
+    postCommandService.delete(id);
   }
 
 }

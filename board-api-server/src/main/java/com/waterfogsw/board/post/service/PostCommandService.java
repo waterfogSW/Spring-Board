@@ -54,6 +54,16 @@ public class PostCommandService {
     post.update(request.title(), request.content());
   }
 
+  @Transactional
+  public void delete(long id) {
+    User user = userService.getCurrentUser();
+    Post post = postRepository.findById(id)
+                              .orElseThrow(() -> new NotFoundException("Post not found"));
+
+    checkPostOwner(user, post);
+    postRepository.delete(post);
+  }
+
   private void checkPostOwner(
       User user,
       Post post

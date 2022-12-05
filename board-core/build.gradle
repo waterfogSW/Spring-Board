@@ -10,11 +10,15 @@ buildscript {
 dependencies {
     // QueryDSL
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
-    annotationProcessor(
-            "javax.persistence:javax.persistence-api",
-            "javax.annotation:javax.annotation-api",
-            "com.querydsl:querydsl-apt:${queryDslVersion}:jpa"
-    )
+
+    annotationProcessor("javax.persistence:javax.persistence-api")
+    annotationProcessor("javax.annotation:javax.annotation-api")
+    annotationProcessor("com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
+
+    // TestContainers
+    testRuntimeOnly('com.mysql:mysql-connector-j:8.0.31')
+    testImplementation("org.testcontainers:mysql:1.17.6")
+    testImplementation("org.testcontainers:junit-jupiter:1.17.6")
 }
 
 // QueryDSL

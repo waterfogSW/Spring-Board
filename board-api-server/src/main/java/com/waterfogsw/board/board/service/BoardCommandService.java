@@ -63,7 +63,7 @@ public class BoardCommandService {
       User user,
       Board board
   ) {
-    if (!user.isMyBoard(board)) {
+    if (!user.equals(board.getCreator())) {
       throw new AuthenticationException();
     }
   }

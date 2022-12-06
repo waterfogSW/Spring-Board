@@ -2,6 +2,6 @@ package com.waterfogsw.board.core;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication(scanBasePackages = "com.waterfogsw.board.core")
+@SpringBootApplication
 public class TestConfig {
 }

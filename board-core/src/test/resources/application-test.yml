@@ -3,12 +3,12 @@ spring:
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
     url: jdbc:tc:mysql:8:///
   jpa:
-    database: mysql
     hibernate:
-      ddl-auto: create-drop
-    open-in-view: false
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
         show_sql: true
-      dialect: org.hibernate.dialect.MySQL8Dialect
+        jdbc:
+          lob:
+            non_contextual_creation: true

@@ -1,17 +1,25 @@
 package com.waterfogsw.board.core.util;
 
+import javax.persistence.EntityManager;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.testcontainers.containers.GenericContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.utility.TestcontainersConfiguration;
 
 @SpringBootTest
-@Testcontainers
 @ActiveProfiles("test")
-public class BaseRepositoryTest {
+public abstract class BaseRepositoryTest {
 
-  @Container
-  private static final GenericContainer<?> MY_SQL_CONTAINER = new GenericContainer<>("mysql/mysql-server:8.0");
+  @Autowired
+  protected EntityManager entityManager;
+
+  static final MySQLContainer<?> MY_SQL_CONTAINER;
+
+  static {
+    TestcontainersConfiguration.getInstance().updateUserConfig("testcontainers.reuse.enable", "true");
+    MY_SQL_CONTAINER = new MySQLContainer<>("mysql:8").withReuse(true);
+  }
 
 }

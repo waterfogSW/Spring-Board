@@ -1,6 +1,7 @@
 package com.waterfogsw.board.core.util;
 
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,6 +10,7 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.utility.TestcontainersConfiguration;
 
 @SpringBootTest
+@Transactional
 @ActiveProfiles("test")
 public abstract class BaseRepositoryTest {
 

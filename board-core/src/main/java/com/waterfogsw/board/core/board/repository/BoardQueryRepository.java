@@ -42,6 +42,8 @@ public class BoardQueryRepository {
   ) {
     return jpaQueryFactory.selectFrom(board)
                           .where(ltBoardId(id), search(keyword))
+                          .join(board.creator, user)
+                          .fetchJoin()
                           .orderBy(board.id.desc())
                           .limit(size)
                           .fetch();

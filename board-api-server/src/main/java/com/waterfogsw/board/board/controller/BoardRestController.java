@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.waterfogsw.board.board.dto.BoardCreateRequest;
 import com.waterfogsw.board.board.dto.BoardGetDetailResponse;
-import com.waterfogsw.board.board.dto.BoardSearchRequest;
-import com.waterfogsw.board.board.dto.BoardSearchResponse;
+import com.waterfogsw.board.board.dto.BoardSliceRequest;
+import com.waterfogsw.board.board.dto.BoardSliceResponse;
 import com.waterfogsw.board.board.dto.BoardUpdateRequest;
 import com.waterfogsw.board.board.service.BoardCommandService;
 import com.waterfogsw.board.board.service.BoardQueryService;
@@ -55,9 +55,9 @@ public class BoardRestController {
       @PathVariable
       long id,
       @RequestBody
-      BoardUpdateRequest reqeust
+      BoardUpdateRequest request
   ) {
-    boardCommandService.update(id, reqeust);
+    boardCommandService.update(id, request);
   }
 
   @Auth(role = Role.USER)
@@ -69,7 +69,7 @@ public class BoardRestController {
 
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
-  public List<BoardSearchResponse> getSliceOfBoard(BoardSearchRequest request) {
+  public List<BoardSliceResponse> getSliceBoard(BoardSliceRequest request) {
     return boardQueryService.getSliceOfBoard(request);
   }
 

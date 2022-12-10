@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.waterfogsw.board.board.dto.BoardGetDetailResponse;
-import com.waterfogsw.board.board.dto.BoardSearchRequest;
-import com.waterfogsw.board.board.dto.BoardSearchResponse;
+import com.waterfogsw.board.board.dto.BoardSliceRequest;
+import com.waterfogsw.board.board.dto.BoardSliceResponse;
 import com.waterfogsw.board.common.exception.NotFoundException;
 import com.waterfogsw.board.core.board.repository.BoardQueryRepository;
 
@@ -24,10 +24,10 @@ public class BoardQueryService {
                                .orElseThrow(() -> new NotFoundException("Board not found"));
   }
 
-  public List<BoardSearchResponse> getSliceOfBoard(BoardSearchRequest request) {
+  public List<BoardSliceResponse> getSliceOfBoard(BoardSliceRequest request) {
     return boardQueryRepository.getSliceOfBoard(request.id(), request.size(), request.keyword())
                                .stream()
-                               .map(BoardSearchResponse::from)
+                               .map(BoardSliceResponse::from)
                                .toList();
   }
 

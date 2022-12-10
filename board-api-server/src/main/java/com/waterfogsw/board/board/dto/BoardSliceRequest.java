@@ -2,7 +2,7 @@ package com.waterfogsw.board.board.dto;
 
 import org.springframework.lang.Nullable;
 
-public record BoardSearchRequest(
+public record BoardSliceRequest(
     @Nullable
     Long id,
     Integer size,
@@ -10,7 +10,7 @@ public record BoardSearchRequest(
     String keyword
 ) {
 
-  public BoardSearchRequest(
+  public BoardSliceRequest(
       @Nullable
       Long id,
       Integer size,

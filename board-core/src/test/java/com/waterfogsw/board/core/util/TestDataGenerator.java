@@ -48,7 +48,6 @@ public class TestDataGenerator {
                .build();
   }
 
-
   public static List<User> getRandomUsers(int num) {
     List<User> users = new ArrayList<>();
     for (int i = 0; i < num; i++) {
@@ -72,6 +71,20 @@ public class TestDataGenerator {
     }
 
     return boards;
+  }
+
+  public static List<Post> getRandomPosts(
+      int num,
+      User writer,
+      Board board
+  ) {
+    List<Post> posts = new ArrayList<>();
+    for (int i = 0; i < num; i++) {
+      String title = getRandomStringByUUID(10);
+      String content = getRandomStringByUUID(30);
+      posts.add(getPost(title, content, writer, board));
+    }
+    return posts;
   }
 
   public static String getRandomStringByUUID(int length) {

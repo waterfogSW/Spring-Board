@@ -1,7 +1,6 @@
 package com.waterfogsw.board.core.post.repository;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+import java.util.List;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
@@ -35,9 +34,9 @@ class PostQueryRepositoryTest extends BaseRepositoryTest {
 
   @AfterEach
   void tearDown() {
-    postRepository.deleteAll();
-    boardRepository.deleteAll();
-    userRepository.deleteAll();
+    postRepository.deleteAllInBatch();
+    boardRepository.deleteAllInBatch();
+    userRepository.deleteAllInBatch();
   }
 
   @Nested
@@ -83,6 +82,144 @@ class PostQueryRepositoryTest extends BaseRepositoryTest {
                   .isTrue();
       }
 
+    }
+
+  }
+
+  @Nested
+  @DisplayName("getSlice 메서드는")
+  class DescribeGetSlice {
+
+    @Nested
+    @DisplayName("null id값이 전달되면")
+    class ContextWithNullId {
+
+      @Test
+      @DisplayName("가장 마지막 id부터 역순으로 size 만큼의 Post를 반환한다")
+      void ItReturnSizeOfPostInReverseOrderFromLastId() {
+        //given
+        int sliceSize = 10;
+        User user = TestDataGenerator.getRandomUsers(1)
+                                     .get(0);
+        userRepository.saveAndFlush(user);
+
+        List<Board> boards = TestDataGenerator.getRandomBoards(2, user);
+        Board board1 = boards.get(0);
+        Board board2 = boards.get(1);
+        boardRepository.saveAllAndFlush(boards);
+
+        List<Post> board1Posts = TestDataGenerator.getRandomPosts(10, user, board1);
+        List<Post> board2Posts = TestDataGenerator.getRandomPosts(10, user, board2);
+        postRepository.saveAllAndFlush(board1Posts);
+        postRepository.saveAllAndFlush(board2Posts);
+
+        entityManager.clear();
+
+        //when
+        List<Post> slice = postQueryRepository.getSlice(null, board1.getId(), sliceSize, null);
+
+        //then
+        Assertions.assertThat(slice.size())
+                  .isEqualTo(sliceSize);
+      }
+
+    }
+
+    @Nested
+    @DisplayName("id값이 전달되면")
+    class ContextWithId {
+
+      @Test
+      @DisplayName("해당 id보다 작은값부터 역순으로 size 만큼의 Post를 반환한다")
+      void ItReturnSizeOfPostInReverseOrderFromId() {
+        //given
+        int sliceSize = 10;
+        User user = TestDataGenerator.getRandomUsers(1)
+                                     .get(0);
+        userRepository.saveAndFlush(user);
+
+        List<Board> boards = TestDataGenerator.getRandomBoards(2, user);
+        Board board1 = boards.get(0);
+        Board board2 = boards.get(1);
+        boardRepository.saveAllAndFlush(boards);
+
+        List<Post> board1Posts = TestDataGenerator.getRandomPosts(20, user, board1);
+        List<Post> board2Posts = TestDataGenerator.getRandomPosts(20, user, board2);
+        postRepository.saveAllAndFlush(board1Posts);
+        postRepository.saveAllAndFlush(board2Posts);
+
+        long targetPostId = board1Posts.get(board1Posts.size() - 1)
+                                       .getId();
+        entityManager.clear();
+
+        //when
+        List<Post> slice = postQueryRepository.getSlice(targetPostId, board1.getId(), sliceSize, null);
+
+        //then
+        Assertions.assertThat(slice.size())
+                  .isEqualTo(sliceSize);
+
+        Post firstSelected = slice.get(0);
+        Assertions.assertThat(firstSelected.getId())
+                  .isEqualTo(targetPostId - 1);
+      }
+
+    }
+
+    @Nested
+    @DisplayName("keyword 값이 전달되면")
+    class ContextWithKeyword {
+
+      @Test
+      @DisplayName("해당 keyword가 title에 포함되어 있는 Post 리스트를 반환한다")
+      void ItReturnPostsThatContainKeywordInTitle() {
+        //given
+        String keyword = "hello";
+        String title = " hello world ";
+
+        User user = TestDataGenerator.getUser("alisong", "alisong@naver.com");
+        userRepository.save(user);
+
+        Board board = TestDataGenerator.getBoard("meet", "direct", user);
+        boardRepository.save(board);
+
+        Post post = TestDataGenerator.getPost(title, "world", user, board);
+        postRepository.save(post);
+
+        //when
+        List<Post> slice = postQueryRepository.getSlice(null, board.getId(), 10, keyword);
+
+        //then
+        Post found = slice.get(0);
+        Assertions.assertThat(found.getTitle())
+                  .isEqualTo(title);
+      }
+
+    }
+
+    @Test
+    @DisplayName("해당 keyword가 content에 포함되어 있는 Post 리스트를 반환한다")
+    void ItReturnPostsThatContainKeywordInTitle() {
+      //given
+      String keyword = "hello";
+      String content = " hello world ";
+
+      User user = TestDataGenerator.getUser("alisong", "alisong@naver.com");
+      userRepository.save(user);
+
+      Board board = TestDataGenerator.getBoard("meet", "direct", user);
+      boardRepository.save(board);
+
+      Post post = TestDataGenerator.getPost("title", content, user, board);
+      postRepository.save(post);
+
+      //when
+      List<Post> slice = postQueryRepository.getSlice(null, board.getId(), 10, keyword);
+
+      //then
+      Post found = slice.get(0);
+      Assertions.assertThat(found.getContent())
+                .isEqualTo(content);
     }
 
   }

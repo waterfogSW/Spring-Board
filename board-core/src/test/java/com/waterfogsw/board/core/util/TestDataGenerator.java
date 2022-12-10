@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.waterfogsw.board.core.board.domain.Board;
+import com.waterfogsw.board.core.post.entity.Post;
 import com.waterfogsw.board.core.user.domain.Role;
 import com.waterfogsw.board.core.user.domain.User;
 
@@ -32,6 +33,21 @@ public class TestDataGenerator {
                 .creator(creator)
                 .build();
   }
+
+  public static Post getPost(
+      String title,
+      String content,
+      User writer,
+      Board board
+  ) {
+    return Post.builder()
+               .title(title)
+               .content(content)
+               .writer(writer)
+               .board(board)
+               .build();
+  }
+
 
   public static List<User> getRandomUsers(int num) {
     List<User> users = new ArrayList<>();

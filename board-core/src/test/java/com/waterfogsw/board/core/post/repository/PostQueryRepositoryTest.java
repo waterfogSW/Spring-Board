@@ -68,13 +68,15 @@ class PostQueryRepositoryTest extends BaseRepositoryTest {
       void ItReturnEntityAsOptionalValue() {
         //given
         User user = TestDataGenerator.getUser("alisong", "alisong@naver.com");
-        userRepository.save(user);
+        userRepository.saveAndFlush(user);
 
         Board board = TestDataGenerator.getBoard("meet", "direct", user);
-        boardRepository.save(board);
+        boardRepository.saveAndFlush(board);
 
         Post post = TestDataGenerator.getPost("hello", "world", user, board);
-        postRepository.save(post);
+        postRepository.saveAndFlush(post);
+
+        entityManager.clear();
 
         //when, then
         Optional<Post> foundPost = postQueryRepository.getDetail(post.getId());
@@ -178,13 +180,15 @@ class PostQueryRepositoryTest extends BaseRepositoryTest {
         String title = " hello world ";
 
         User user = TestDataGenerator.getUser("alisong", "alisong@naver.com");
-        userRepository.save(user);
+        userRepository.saveAndFlush(user);
 
         Board board = TestDataGenerator.getBoard("meet", "direct", user);
-        boardRepository.save(board);
+        boardRepository.saveAndFlush(board);
 
         Post post = TestDataGenerator.getPost(title, "world", user, board);
-        postRepository.save(post);
+        postRepository.saveAndFlush(post);
+
+        entityManager.clear();
 
         //when
         List<Post> slice = postQueryRepository.getSlice(null, board.getId(), 10, keyword);
@@ -205,13 +209,15 @@ class PostQueryRepositoryTest extends BaseRepositoryTest {
       String content = " hello world ";
 
       User user = TestDataGenerator.getUser("alisong", "alisong@naver.com");
-      userRepository.save(user);
+      userRepository.saveAndFlush(user);
 
       Board board = TestDataGenerator.getBoard("meet", "direct", user);
-      boardRepository.save(board);
+      boardRepository.saveAndFlush(board);
 
       Post post = TestDataGenerator.getPost("title", content, user, board);
-      postRepository.save(post);
+      postRepository.saveAndFlush(post);
+
+      entityManager.clear();
 
       //when
       List<Post> slice = postQueryRepository.getSlice(null, board.getId(), 10, keyword);

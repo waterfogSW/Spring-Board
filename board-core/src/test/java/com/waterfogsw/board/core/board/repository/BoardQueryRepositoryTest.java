@@ -29,8 +29,8 @@ class BoardQueryRepositoryTest extends BaseRepositoryTest {
 
   @AfterEach
   void tearDown() {
-    boardRepository.deleteAll();
-    userRepository.deleteAll();
+    boardRepository.deleteAllInBatch();
+    userRepository.deleteAllInBatch();
   }
 
   @Nested
@@ -62,10 +62,12 @@ class BoardQueryRepositoryTest extends BaseRepositoryTest {
       void ItReturnEntityAsOptionalValue() {
         //given
         User user = TestDataGenerator.getUser("alisong", "alisong@naver.com");
-        userRepository.save(user);
+        userRepository.saveAndFlush(user);
 
         Board board = TestDataGenerator.getBoard("meet", "direct", user);
-        boardRepository.save(board);
+        boardRepository.saveAndFlush(board);
+
+        entityManager.clear();
 
         //when, then
         Optional<Board> foundBoard = boardQueryRepository.getDetail(board.getId());
@@ -93,10 +95,12 @@ class BoardQueryRepositoryTest extends BaseRepositoryTest {
         int sliceSize = 10;
         User user = TestDataGenerator.getRandomUsers(1)
                                      .get(0);
-        userRepository.save(user);
+        userRepository.saveAndFlush(user);
 
         List<Board> boards = TestDataGenerator.getRandomBoards(totalBoardCount, user);
-        boardRepository.saveAll(boards);
+        boardRepository.saveAllAndFlush(boards);
+
+        entityManager.clear();
 
         //when
         List<Board> sliceOfBoard = boardQueryRepository.getSliceOfBoard(null, sliceSize, null);
@@ -120,13 +124,15 @@ class BoardQueryRepositoryTest extends BaseRepositoryTest {
         int sliceSize = 10;
         User user = TestDataGenerator.getRandomUsers(1)
                                      .get(0);
-        userRepository.save(user);
+        userRepository.saveAndFlush(user);
 
         List<Board> boards = TestDataGenerator.getRandomBoards(totalBoardCount, user);
-        boardRepository.saveAll(boards);
+        boardRepository.saveAllAndFlush(boards);
 
         long targetBoardId = boards.get(boards.size() - 1)
                                    .getId();
+
+        entityManager.clear();
 
         //when
         List<Board> sliceOfBoard = boardQueryRepository.getSliceOfBoard(targetBoardId, sliceSize, null);
@@ -157,12 +163,14 @@ class BoardQueryRepositoryTest extends BaseRepositoryTest {
         int sliceSize = 10;
         User user = TestDataGenerator.getRandomUsers(1)
                                      .get(0);
-        userRepository.save(user);
+        userRepository.saveAndFlush(user);
 
         Board keywordBoard = TestDataGenerator.getBoard(title, "camping", user);
         List<Board> boards = TestDataGenerator.getRandomBoards(totalBoardCount, user);
-        boardRepository.save(keywordBoard);
-        boardRepository.saveAll(boards);
+        boardRepository.saveAndFlush(keywordBoard);
+        boardRepository.saveAllAndFlush(boards);
+
+        entityManager.clear();
 
         //when
         List<Board> sliceOfBoard = boardQueryRepository.getSliceOfBoard(null, sliceSize, keyword);
@@ -184,12 +192,14 @@ class BoardQueryRepositoryTest extends BaseRepositoryTest {
         int sliceSize = 10;
         User user = TestDataGenerator.getRandomUsers(1)
                                      .get(0);
-        userRepository.save(user);
+        userRepository.saveAndFlush(user);
 
         Board keywordBoard = TestDataGenerator.getBoard("camping", description, user);
         List<Board> boards = TestDataGenerator.getRandomBoards(totalBoardCount, user);
-        boardRepository.save(keywordBoard);
-        boardRepository.saveAll(boards);
+        boardRepository.saveAndFlush(keywordBoard);
+        boardRepository.saveAllAndFlush(boards);
+
+        entityManager.clear();
 
         //when
         List<Board> sliceOfBoard = boardQueryRepository.getSliceOfBoard(null, sliceSize, keyword);

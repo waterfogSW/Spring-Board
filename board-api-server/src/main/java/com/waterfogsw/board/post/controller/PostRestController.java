@@ -1,5 +1,7 @@
 package com.waterfogsw.board.post.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +17,8 @@ import com.waterfogsw.board.common.auth.Auth;
 import com.waterfogsw.board.core.user.domain.Role;
 import com.waterfogsw.board.post.dto.PostCreateRequest;
 import com.waterfogsw.board.post.dto.PostGetDetailResponse;
+import com.waterfogsw.board.post.dto.PostSliceRequest;
+import com.waterfogsw.board.post.dto.PostSliceResponse;
 import com.waterfogsw.board.post.dto.PostUpdateRequest;
 import com.waterfogsw.board.post.service.PostCommandService;
 import com.waterfogsw.board.post.service.PostQueryService;
@@ -61,5 +65,10 @@ public class PostRestController {
     return postQueryService.getDetail(id);
   }
 
+  @GetMapping
+  @ResponseStatus(HttpStatus.OK)
+  public List<PostSliceResponse> getSlice(PostSliceRequest request) {
+    return postQueryService.getSlice(request);
+  }
 
 }

@@ -4,7 +4,7 @@ spring:
     url: jdbc:tc:mysql:8:///TC_REUSABLE=true
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
     properties:
       hibernate:
         format_sql: true

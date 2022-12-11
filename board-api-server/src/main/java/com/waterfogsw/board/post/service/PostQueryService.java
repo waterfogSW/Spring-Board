@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.waterfogsw.board.common.exception.NotFoundException;
+import com.waterfogsw.board.core.common.exception.NotFoundException;
 import com.waterfogsw.board.core.post.repository.PostQueryRepository;
 import com.waterfogsw.board.post.dto.PostGetDetailResponse;
 import com.waterfogsw.board.post.dto.PostSliceRequest;

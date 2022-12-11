@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import com.waterfogsw.board.board.dto.BoardGetDetailResponse;
 import com.waterfogsw.board.board.dto.BoardSliceRequest;
 import com.waterfogsw.board.board.dto.BoardSliceResponse;
-import com.waterfogsw.board.common.exception.NotFoundException;
+import com.waterfogsw.board.core.common.exception.NotFoundException;
 import com.waterfogsw.board.core.board.repository.BoardQueryRepository;
 
 import lombok.RequiredArgsConstructor;

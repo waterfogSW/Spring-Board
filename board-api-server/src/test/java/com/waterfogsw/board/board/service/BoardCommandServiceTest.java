@@ -17,7 +17,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import com.waterfogsw.board.board.dto.BoardCreateRequest;
 import com.waterfogsw.board.board.dto.BoardUpdateRequest;
-import com.waterfogsw.board.common.exception.AuthenticationException;
+import com.waterfogsw.board.core.common.exception.AuthenticationException;
 import com.waterfogsw.board.core.board.domain.Board;
 import com.waterfogsw.board.core.board.repository.BoardRepository;
 import com.waterfogsw.board.core.user.domain.User;

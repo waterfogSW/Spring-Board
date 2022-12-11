@@ -5,6 +5,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.waterfogsw.board.core.common.exception.AuthenticationException;
+import com.waterfogsw.board.core.common.exception.NotFoundException;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

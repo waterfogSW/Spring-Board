@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.waterfogsw.board.common.auth.Authentication;
 import com.waterfogsw.board.common.auth.AuthenticationContextHolder;
-import com.waterfogsw.board.common.exception.NotFoundException;
+import com.waterfogsw.board.core.common.exception.NotFoundException;
 import com.waterfogsw.board.core.user.domain.User;
 import com.waterfogsw.board.core.user.repository.UserRepository;
 

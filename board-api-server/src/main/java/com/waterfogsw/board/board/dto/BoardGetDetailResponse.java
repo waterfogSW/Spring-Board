@@ -15,7 +15,7 @@ public record BoardGetDetailResponse(
 ) {
 
   public static BoardGetDetailResponse from(Board board) {
-    UserInfoDTO creatorInfo = UserInfoDTO.from(board.getCreator());
+    UserInfoDTO creatorInfo = UserInfoDTO.from(board.getOwner());
 
     return BoardGetDetailResponse.builder()
                                  .id(board.getId())

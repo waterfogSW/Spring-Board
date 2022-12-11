@@ -30,7 +30,7 @@ public class TestDataGenerator {
     return Board.builder()
                 .title(title)
                 .description(description)
-                .creator(creator)
+                .owner(creator)
                 .build();
   }
 

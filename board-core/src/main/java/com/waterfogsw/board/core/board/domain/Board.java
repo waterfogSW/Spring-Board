@@ -32,17 +32,17 @@ public class Board extends BaseTime {
   private String description;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  private User creator;
+  private User owner;
 
   @Builder
   public Board(
       String title,
       String description,
-      User creator
+      User owner
   ) {
     this.title = title;
     this.description = description;
-    this.creator = creator;
+    this.owner = owner;
   }
 
   public void update(

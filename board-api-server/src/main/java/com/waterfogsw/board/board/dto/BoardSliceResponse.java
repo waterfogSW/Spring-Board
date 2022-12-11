@@ -11,7 +11,7 @@ public record BoardSliceResponse(
 ) {
 
   public static BoardSliceResponse from(Board board) {
-    UserInfoDTO userInfoDTO = UserInfoDTO.from(board.getCreator());
+    UserInfoDTO userInfoDTO = UserInfoDTO.from(board.getOwner());
     return new BoardSliceResponse(board.getId(), board.getTitle(), board.getDescription(), userInfoDTO);
   }
 

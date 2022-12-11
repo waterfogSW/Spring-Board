@@ -30,7 +30,7 @@ public class BoardCommandService {
     Board board = Board.builder()
                        .title(request.title())
                        .description(request.description())
-                       .creator(user)
+                       .owner(user)
                        .build();
 
     boardRepository.save(board);
@@ -63,7 +63,7 @@ public class BoardCommandService {
       User user,
       Board board
   ) {
-    if (!user.equals(board.getCreator())) {
+    if (!user.equals(board.getOwner())) {
       throw new AuthenticationException();
     }
   }

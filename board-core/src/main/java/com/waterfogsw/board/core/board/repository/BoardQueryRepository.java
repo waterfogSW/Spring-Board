@@ -25,7 +25,7 @@ public class BoardQueryRepository {
   public Optional<Board> getDetail(long id) {
     Board result = jpaQueryFactory.selectFrom(board)
                                   .where(board.id.eq(id))
-                                  .join(board.creator, user)
+                                  .join(board.owner, user)
                                   .fetchJoin()
                                   .distinct()
                                   .fetchOne();
@@ -42,7 +42,7 @@ public class BoardQueryRepository {
   ) {
     return jpaQueryFactory.selectFrom(board)
                           .where(ltBoardId(id), search(keyword))
-                          .join(board.creator, user)
+                          .join(board.owner, user)
                           .fetchJoin()
                           .orderBy(board.id.desc())
                           .limit(size)

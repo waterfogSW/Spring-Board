@@ -12,6 +12,7 @@ import com.waterfogsw.board.core.board.repository.BoardRepository;
 import com.waterfogsw.board.core.user.domain.User;
 import com.waterfogsw.board.user.service.UserService;
 
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,9 +25,8 @@ public class BoardCommandService {
   private final UserService userService;
 
   @Transactional
-  public void create(BoardCreateRequest request) {
+  public void create(@NonNull BoardCreateRequest request) {
     User user = userService.getCurrentUser();
-
     Board board = Board.builder()
                        .title(request.title())
                        .description(request.description())
@@ -39,6 +39,7 @@ public class BoardCommandService {
   @Transactional
   public void update(
       long id,
+      @NonNull
       BoardUpdateRequest request
   ) {
     User user = userService.getCurrentUser();

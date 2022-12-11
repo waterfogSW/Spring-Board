@@ -2,4 +2,3 @@ rootProject.name = 'board'
 include 'board-core'
 include 'board-auth-server'
 include 'board-api-server'
-

@@ -45,6 +45,20 @@ services:
     depends_on:
       - mysql-db
 
+  board-chat-server:
+    container_name: board-chat-server
+    build: board-chat-server/.
+    environment:
+      SPRING_DATASOURCE_URL: ${datasource_url}
+      SPRING_DATASOURCE_USERNAME: ${datasource_username}
+      SPRING_DATASOURCE_PASSWORD: ${datasource_password}
+      JWT_CLIENT_SECRET: ${token_client_secret}
+    ports:
+      - "8082:8082"
+    restart: always
+    depends_on:
+      - mysql-db
+
   board-auth-server:
     container_name: board-auth-server
     build: board-auth-server/.

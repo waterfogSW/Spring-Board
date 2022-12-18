@@ -1,0 +1,18 @@
+server:
+  port: 8082
+
+spring:
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      dialect: org.hibernate.dialect.MySQL8Dialect
+  datasource:
+    url: ${datasource_url}
+    username: ${datasource_username}
+    password: ${datasource_password}
+
+jwt:
+  client-secret: ${token_client_secret}

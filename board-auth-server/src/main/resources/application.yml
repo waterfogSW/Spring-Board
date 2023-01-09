@@ -16,11 +16,11 @@ spring:
 
 redis:
   master:
-    host: 127.0.0.1
-    port: 6379
+    host: ${redis_master_host}
+    port: ${redis_master_port}
   slave:
-    host: 127.0.0.1
-    port: 6479
+    host: ${redis_slave_host}
+    port: ${redis_slave_port}
 
 jwt:
   access-token-header: AccessToken

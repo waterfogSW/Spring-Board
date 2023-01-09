@@ -68,6 +68,10 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${datasource_password}
       JWT_CLIENT_SECRET: ${token_client_secret}
       OAUTH2_CLIENTS_GOOGLE_CLIENT-SECRET: ${google_client_secret}
+      REDIS_MASTER_HOST: ${redis_master_host}
+      REDIS_MASTER_PORT: ${redis_master_port}
+      REDIS_SLAVE_HOST: ${redis_slave_host}
+      REDIS_SLAVE_PORT: ${redis_slave_port}
     ports:
       - "8080:8080"
     restart: always

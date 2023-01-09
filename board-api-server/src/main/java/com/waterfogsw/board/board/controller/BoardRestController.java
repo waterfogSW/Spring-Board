@@ -2,6 +2,8 @@ package com.waterfogsw.board.board.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,7 +40,10 @@ public class BoardRestController {
   @Auth(role = Role.USER)
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public void create(@RequestBody BoardCreateRequest request) {
+  public void create(
+      @Valid @RequestBody
+      BoardCreateRequest request
+  ) {
     boardCommandService.create(request);
   }
 

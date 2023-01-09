@@ -17,7 +17,7 @@ public class RestControllerAdvisor {
   @ResponseStatus(HttpStatus.FORBIDDEN)
   @ExceptionHandler(AuthenticationException.class)
   public void forbidden(AuthenticationException e) {
-    log.debug("exception={}, message={}", e.getClass(), e.getMessage());
+    log.info("exception={}, message={}", e, e.getMessage());
   }
 
   @ResponseStatus(HttpStatus.NOT_FOUND)

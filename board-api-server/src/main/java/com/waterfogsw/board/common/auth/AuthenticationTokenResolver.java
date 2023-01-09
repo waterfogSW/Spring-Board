@@ -31,9 +31,9 @@ public class AuthenticationTokenResolver {
     return new Authentication(userId, role);
   }
 
-  public boolean isTokenExpired(String token) {
+  public boolean isTokenNotExpired(String token) {
     return getClaims(token).getExpiration()
-                           .after(new Date());
+                           .before(new Date());
   }
 
   private Claims getClaims(String token) {

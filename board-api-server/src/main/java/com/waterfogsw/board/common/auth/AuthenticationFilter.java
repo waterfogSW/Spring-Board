@@ -31,10 +31,11 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
     try {
       String token = extractTokenFromHeader(request);
-      if (!tokenResolver.isTokenExpired(token)) {
+      if (tokenResolver.isTokenNotExpired(token)) {
         throw new JwtException("Invalid token exception");
       }
       Authentication authentication = tokenResolver.getAuthentication(token);
+      log.info("test={}", authentication.toString());
       AuthenticationContextHolder.setAuthentication(authentication);
     } catch (Exception e) {
       log.debug(e.getMessage());

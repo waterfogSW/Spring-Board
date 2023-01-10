@@ -1,0 +1,98 @@
+package com.waterfogsw.board.board.controller
+
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.waterfogsw.board.board.dto.BoardCreateRequest
+import com.waterfogsw.board.board.service.BoardCommandService
+import com.waterfogsw.board.board.service.BoardQueryService
+import com.waterfogsw.board.common.auth.Authentication
+import com.waterfogsw.board.common.auth.AuthenticationContextHolder
+import com.waterfogsw.board.common.auth.AuthenticationTokenResolver
+import com.waterfogsw.board.core.user.domain.Role
+import io.kotest.core.spec.style.DescribeSpec
+import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.boot.test.mock.mockito.MockBeans
+import org.springframework.http.MediaType
+import org.springframework.restdocs.ManualRestDocumentation
+import org.springframework.restdocs.RestDocumentationExtension
+import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
+import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration
+import org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest
+import org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint
+import org.springframework.restdocs.payload.JsonFieldType
+import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
+import org.springframework.restdocs.payload.PayloadDocumentation.requestFields
+import org.springframework.test.web.servlet.post
+import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
+import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import org.springframework.web.context.WebApplicationContext
+
+@MockBeans(
+  MockBean(BoardCommandService::class),
+  MockBean(BoardQueryService::class),
+  MockBean(AuthenticationTokenResolver::class)
+)
+@WebMvcTest(BoardRestController::class)
+@ExtendWith(RestDocumentationExtension::class)
+class BoardRestControllerTest(
+  @Autowired
+  private val context: WebApplicationContext,
+  @Autowired
+  private val mapper: ObjectMapper,
+) : DescribeSpec({
+  val restDocumentation = ManualRestDocumentation()
+  val mockMvc = MockMvcBuilders
+      .webAppContextSetup(context)
+      .apply<DefaultMockMvcBuilder>(
+        documentationConfiguration(restDocumentation)
+            .operationPreprocessors()
+            .withRequestDefaults(prettyPrint())
+            .withResponseDefaults(prettyPrint())
+      )
+      .build()
+
+  beforeEach {
+    restDocumentation.beforeTest(javaClass, it.name.testName)
+  }
+
+  afterEach {
+    restDocumentation.afterTest()
+  }
+
+  describe("POST : /api/v1/boards") {
+    val url = "/api/v1/boards"
+    context("유효한 요청이 전달되면") {
+      //토큰 사용자 정보
+      val authentication = Authentication(1L, Role.USER)
+      AuthenticationContextHolder.setAuthentication(authentication)
+      //요청 Body
+      val requestBody = BoardCreateRequest("Test", "Test")
+      val requestJson = mapper.writeValueAsString(requestBody)
+
+      it("201 응답") {
+        mockMvc
+            .post(url) {
+              contentType = MediaType.APPLICATION_JSON
+              content = requestJson
+            }
+            .andExpect { status { isCreated() } }
+            .andDo {
+              handle(
+                document(
+                  "Create Board", requestFields(
+                    fieldWithPath("title")
+                        .type(JsonFieldType.STRING)
+                        .description("게시판 이름"),
+                    fieldWithPath("description")
+                        .type(JsonFieldType.STRING)
+                        .description("게시판 설명")
+                  )
+                )
+              )
+            }
+      }
+    }
+  }
+})

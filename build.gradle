@@ -3,6 +3,7 @@ plugins {
     id 'org.springframework.boot' version '2.7.5'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
     id 'org.asciidoctor.jvm.convert' version '3.3.2'
+    id 'org.jetbrains.kotlin.jvm' version '1.6.21'
 }
 
 allprojects {
@@ -21,6 +22,7 @@ subprojects {
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'org.asciidoctor.jvm.convert'
+    apply plugin: 'org.jetbrains.kotlin.jvm'
 
     configurations {
         compileOnly {
@@ -36,12 +38,21 @@ subprojects {
     dependencies {
         compileOnly('org.projectlombok:lombok')
         annotationProcessor('org.projectlombok:lombok')
+        implementation('org.jetbrains.kotlin:kotlin-stdlib-jdk8')
         implementation('org.springframework.boot:spring-boot-starter-data-jpa')
         implementation('org.springframework.boot:spring-boot-starter-validation')
         implementation('com.google.code.findbugs:jsr305:3.0.2')
         testImplementation('org.springframework.boot:spring-boot-starter-test')
+
+        //restdocs
         asciidoctorExt('org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.6.RELEASE')
         testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc:2.0.6.RELEASE')
+
+        //kotlin test
+        testImplementation("io.mockk:mockk:1.13.2")
+        testImplementation("io.kotest:kotest-runner-junit5:5.5.4")
+        testImplementation("io.kotest:kotest-assertions-core:5.5.4")
+        testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.2")
     }
 
     tasks.named('test') {
@@ -61,5 +72,17 @@ bootJar {
     dependsOn asciidoctor
     from ("${asciidoctor.outputDir}/html5") {
         into 'static/docs'
+    }
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+}
+
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "17"
     }
 }

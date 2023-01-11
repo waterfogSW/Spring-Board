@@ -9,6 +9,7 @@ import com.waterfogsw.board.common.auth.Authentication
 import com.waterfogsw.board.common.auth.AuthenticationContextHolder
 import com.waterfogsw.board.common.auth.AuthenticationTokenResolver
 import com.waterfogsw.board.core.user.domain.Role
+import com.waterfogsw.board.restdoc.andDocument
 import com.waterfogsw.board.restdoc.requestBody
 import com.waterfogsw.board.restdoc.type
 import io.kotest.core.spec.style.DescribeSpec
@@ -20,7 +21,6 @@ import org.springframework.boot.test.mock.mockito.MockBeans
 import org.springframework.http.MediaType
 import org.springframework.restdocs.ManualRestDocumentation
 import org.springframework.restdocs.RestDocumentationExtension
-import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration
 import org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint
 import org.springframework.test.web.servlet.post
@@ -76,18 +76,15 @@ class BoardRestControllerTest(
               contentType = MediaType.APPLICATION_JSON
               content = requestJson
             }
-            .andExpect { status { isCreated() } }
-            .andDo {
-              handle(
-                document(
-                  "Create Board",
-                  requestBody(
-                    "title" type STRING means "게시판 이름" isOptional false,
-                    "description" type STRING means "게시판 설명" isOptional true
-                  )
-                )
-              )
+            .andExpect {
+              status { isCreated() }
             }
+            .andDocument("Create Board", {
+              requestBody(
+                "title" type STRING means "게시판 이름" isOptional false,
+                "description" type STRING means "게시판 설명" isOptional true
+              )
+            })
       }
     }
   }

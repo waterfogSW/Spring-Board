@@ -11,6 +11,7 @@ import com.waterfogsw.board.common.auth.AuthenticationTokenResolver
 import com.waterfogsw.board.core.user.domain.Role
 import com.waterfogsw.board.restdoc.andDocument
 import com.waterfogsw.board.restdoc.requestBody
+import com.waterfogsw.board.restdoc.restDocMockMvcBuild
 import com.waterfogsw.board.restdoc.type
 import io.kotest.core.spec.style.DescribeSpec
 import org.junit.jupiter.api.extension.ExtendWith
@@ -21,11 +22,7 @@ import org.springframework.boot.test.mock.mockito.MockBeans
 import org.springframework.http.MediaType
 import org.springframework.restdocs.ManualRestDocumentation
 import org.springframework.restdocs.RestDocumentationExtension
-import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration
-import org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint
 import org.springframework.test.web.servlet.post
-import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
-import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
 
 @MockBeans(
@@ -42,23 +39,10 @@ class BoardRestControllerTest(
   private val mapper: ObjectMapper,
 ) : DescribeSpec({
   val restDocumentation = ManualRestDocumentation()
-  val mockMvc = MockMvcBuilders
-      .webAppContextSetup(context)
-      .apply<DefaultMockMvcBuilder>(
-        documentationConfiguration(restDocumentation)
-            .operationPreprocessors()
-            .withRequestDefaults(prettyPrint())
-            .withResponseDefaults(prettyPrint())
-      )
-      .build()
+  val mockMvc = restDocMockMvcBuild(context, restDocumentation)
 
-  beforeEach {
-    restDocumentation.beforeTest(javaClass, it.name.testName)
-  }
-
-  afterEach {
-    restDocumentation.afterTest()
-  }
+  beforeEach { restDocumentation.beforeTest(javaClass, it.name.testName) }
+  afterEach { restDocumentation.afterTest() }
 
   describe("POST : /api/v1/boards") {
     val url = "/api/v1/boards"

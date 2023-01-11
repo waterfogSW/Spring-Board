@@ -1,7 +1,7 @@
 package com.waterfogsw.board.board.dto;
 
 import com.waterfogsw.board.core.board.domain.Board;
-import com.waterfogsw.board.user.dto.UserInfoDTO;
+import com.waterfogsw.board.user.dto.UserInfo;
 
 import lombok.Builder;
 
@@ -10,12 +10,12 @@ public record BoardGetDetailResponse(
     long id,
     String title,
     String description,
-    UserInfoDTO creatorInfo,
+    UserInfo creatorInfo,
     String createdAt
 ) {
 
   public static BoardGetDetailResponse from(Board board) {
-    UserInfoDTO creatorInfo = UserInfoDTO.from(board.getOwner());
+    UserInfo creatorInfo = UserInfo.from(board.getOwner());
 
     return BoardGetDetailResponse.builder()
                                  .id(board.getId())

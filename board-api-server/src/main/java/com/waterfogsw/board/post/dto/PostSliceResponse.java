@@ -1,7 +1,7 @@
 package com.waterfogsw.board.post.dto;
 
 import com.waterfogsw.board.core.post.entity.Post;
-import com.waterfogsw.board.user.dto.UserInfoDTO;
+import com.waterfogsw.board.user.dto.UserInfo;
 
 import lombok.Builder;
 
@@ -10,13 +10,13 @@ public record PostSliceResponse(
     long id,
     String title,
     String content,
-    UserInfoDTO writer,
+    UserInfo writer,
     String createdAt,
     String updatedAt
 ) {
 
   public static PostSliceResponse from(Post post) {
-    UserInfoDTO writer = UserInfoDTO.from(post.getWriter());
+    UserInfo writer = UserInfo.from(post.getWriter());
     return PostSliceResponse.builder()
                             .id(post.getId())
                             .title(post.getTitle())

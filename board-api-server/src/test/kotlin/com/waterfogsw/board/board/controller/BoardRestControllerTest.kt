@@ -1,5 +1,6 @@
 package com.waterfogsw.board.board.controller
 
+import STRING
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.waterfogsw.board.board.dto.BoardCreateRequest
 import com.waterfogsw.board.board.service.BoardCommandService
@@ -8,6 +9,8 @@ import com.waterfogsw.board.common.auth.Authentication
 import com.waterfogsw.board.common.auth.AuthenticationContextHolder
 import com.waterfogsw.board.common.auth.AuthenticationTokenResolver
 import com.waterfogsw.board.core.user.domain.Role
+import com.waterfogsw.board.restdoc.requestBody
+import com.waterfogsw.board.restdoc.type
 import io.kotest.core.spec.style.DescribeSpec
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -19,11 +22,7 @@ import org.springframework.restdocs.ManualRestDocumentation
 import org.springframework.restdocs.RestDocumentationExtension
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration
-import org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest
 import org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint
-import org.springframework.restdocs.payload.JsonFieldType
-import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
-import org.springframework.restdocs.payload.PayloadDocumentation.requestFields
 import org.springframework.test.web.servlet.post
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
@@ -81,13 +80,10 @@ class BoardRestControllerTest(
             .andDo {
               handle(
                 document(
-                  "Create Board", requestFields(
-                    fieldWithPath("title")
-                        .type(JsonFieldType.STRING)
-                        .description("게시판 이름"),
-                    fieldWithPath("description")
-                        .type(JsonFieldType.STRING)
-                        .description("게시판 설명")
+                  "Create Board",
+                  requestBody(
+                    "title" type STRING means "게시판 이름" isOptional false,
+                    "description" type STRING means "게시판 설명" isOptional true
                   )
                 )
               )

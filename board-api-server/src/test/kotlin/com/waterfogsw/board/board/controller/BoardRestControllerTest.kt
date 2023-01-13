@@ -47,10 +47,9 @@ class BoardRestControllerTest(
   describe("POST : /api/v1/boards") {
     val url = "/api/v1/boards"
     context("유효한 요청이 전달되면") {
-      //토큰 사용자 정보
       val authentication = Authentication(1L, Role.USER)
       AuthenticationContextHolder.setAuthentication(authentication)
-      //요청 Body
+
       val requestBody = BoardCreateRequest("Test", "Test")
       val requestJson = mapper.writeValueAsString(requestBody)
 

@@ -75,9 +75,31 @@ class BoardRestControllerTest(
       val authentication = Authentication(1L, Role.USER)
       AuthenticationContextHolder.setAuthentication(authentication)
 
-      val titleCases = listOf(null, "", "\n", "a".repeat(21))
-      titleCases.forEach { title ->
+      val titles = listOf(null, "", "\n", "a".repeat(21))
+      titles.forEach { title ->
         val requestBody = BoardCreateRequest(title, "Test")
+        val requestJson = mapper.writeValueAsString(requestBody)
+
+        it("400 응답") {
+          mockMvc
+              .post(url) {
+                contentType = MediaType.APPLICATION_JSON
+                content = requestJson
+              }
+              .andExpect {
+                status { isBadRequest() }
+              }
+        }
+      }
+    }
+
+    context("설명의 길이가 1~200사이가 아니면") {
+      val authentication = Authentication(1L, Role.USER)
+      AuthenticationContextHolder.setAuthentication(authentication)
+
+      val descriptions = listOf(null, "", "\n", "a".repeat(201))
+      descriptions.forEach { description ->
+        val requestBody = BoardCreateRequest("Test", description)
         val requestJson = mapper.writeValueAsString(requestBody)
 
         it("400 응답") {

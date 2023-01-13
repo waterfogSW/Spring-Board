@@ -73,12 +73,13 @@ class BoardRestControllerTest(
             .andExpect {
               status { isCreated() }
             }
-            .andDocument("Create Board", {
-              requestBody(
-                "title" type STRING means "게시판 이름" isOptional false,
-                "description" type STRING means "게시판 설명" isOptional true
-              )
-            })
+            .andDocument(
+              "Create Board", (
+                  requestBody(
+                    "title" type STRING means "게시판 이름" isOptional false,
+                    "description" type STRING means "게시판 설명" isOptional true
+                  ))
+            )
       }
     }
 
@@ -139,17 +140,18 @@ class BoardRestControllerTest(
             .andExpect {
               status { isOk() }
             }
-            .andDocument("Lookup Board", {
-              responseBody(
-                "id" type NUMBER means "게시판 번호" isOptional false,
-                "title" type STRING means "게시판 제목" isOptional false,
-                "description" type STRING means "게시판 제목" isOptional true,
-                "creatorInfo.id" type NUMBER means "게시판 생성자 번호" isOptional false,
-                "creatorInfo.name" type STRING means "게시판 생성자 이름" isOptional false,
-                "creatorInfo.imageUrl" type STRING means "게시판 생성자 이미지 URL" isOptional false,
-                "createdAt" type STRING means "게시판 생성일" isOptional false,
-              )
-            })
+            .andDocument(
+              "Lookup Board", (
+                  responseBody(
+                    "id" type NUMBER means "게시판 번호" isOptional false,
+                    "title" type STRING means "게시판 제목" isOptional false,
+                    "description" type STRING means "게시판 제목" isOptional true,
+                    "creatorInfo.id" type NUMBER means "게시판 생성자 번호" isOptional false,
+                    "creatorInfo.name" type STRING means "게시판 생성자 이름" isOptional false,
+                    "creatorInfo.imageUrl" type STRING means "게시판 생성자 이미지 URL" isOptional false,
+                    "createdAt" type STRING means "게시판 생성일" isOptional false,
+                  ))
+            )
       }
     }
   }

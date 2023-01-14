@@ -1,32 +1,28 @@
 package com.waterfogsw.board.restdoc
 
 import DocsFieldType
-import org.springframework.restdocs.payload.FieldDescriptor
-import org.springframework.restdocs.payload.JsonFieldType
-import org.springframework.restdocs.payload.PayloadDocumentation
-import org.springframework.restdocs.payload.RequestFieldsSnippet
-import org.springframework.restdocs.payload.ResponseFieldsSnippet
+import org.springframework.restdocs.payload.*
 
-open class RestDocField(
+class RestDocField(
   val descriptor: FieldDescriptor
 ) {
 
-  open infix fun isOptional(value: Boolean): RestDocField {
+  infix fun isOptional(value: Boolean): RestDocField {
     if (value) descriptor.optional()
     return this
   }
 
-  open infix fun isIgnored(value: Boolean): RestDocField {
+  infix fun isIgnored(value: Boolean): RestDocField {
     if (value) descriptor.ignored()
     return this
   }
 
-  open infix fun means(value: String): RestDocField {
+  infix fun means(value: String): RestDocField {
     descriptor.description(value)
     return this
   }
 
-  open infix fun attributes(block: RestDocField.() -> Unit): RestDocField {
+  infix fun attributes(block: RestDocField.() -> Unit): RestDocField {
     block()
     return this
   }
@@ -53,8 +49,8 @@ private fun createField(
   return RestDocField(descriptor)
 }
 
-fun <T : RestDocField> requestBody(vararg fields: T): RequestFieldsSnippet =
+fun requestBody(vararg fields: RestDocField): RequestFieldsSnippet =
   PayloadDocumentation.requestFields(fields.map { it.descriptor })
 
-fun <T : RestDocField> responseBody(vararg fields: T): ResponseFieldsSnippet =
+fun responseBody(vararg fields: RestDocField): ResponseFieldsSnippet =
   PayloadDocumentation.responseFields(fields.map { it.descriptor })

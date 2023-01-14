@@ -1,4 +1,4 @@
-package com.waterfogsw.board.restdoc
+package com.waterfogsw.board.util.restdoc
 
 import org.springframework.restdocs.payload.*
 

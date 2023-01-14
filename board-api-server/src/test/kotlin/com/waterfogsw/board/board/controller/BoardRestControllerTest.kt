@@ -10,8 +10,8 @@ import com.waterfogsw.board.common.auth.Authentication
 import com.waterfogsw.board.common.auth.AuthenticationContextHolder
 import com.waterfogsw.board.common.auth.AuthenticationTokenResolver
 import com.waterfogsw.board.core.user.domain.Role
-import com.waterfogsw.board.restdoc.*
 import com.waterfogsw.board.user.dto.UserInfo
+import com.waterfogsw.board.util.restdoc.*
 import io.kotest.core.spec.style.DescribeSpec
 import io.mockk.mockkObject
 import org.junit.jupiter.api.extension.ExtendWith

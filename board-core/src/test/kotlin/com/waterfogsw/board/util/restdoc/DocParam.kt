@@ -1,4 +1,4 @@
-package com.waterfogsw.board.restdoc
+package com.waterfogsw.board.util.restdoc
 
 import org.springframework.restdocs.request.ParameterDescriptor
 import org.springframework.restdocs.request.PathParametersSnippet

@@ -1,3 +1,5 @@
+package com.waterfogsw.board.restdoc
+
 import org.springframework.restdocs.payload.JsonFieldType
 
 sealed class DocsFieldType(

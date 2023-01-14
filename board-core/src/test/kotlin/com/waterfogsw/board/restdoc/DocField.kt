@@ -1,6 +1,5 @@
 package com.waterfogsw.board.restdoc
 
-import DocsFieldType
 import org.springframework.restdocs.payload.*
 
 class RestDocField(

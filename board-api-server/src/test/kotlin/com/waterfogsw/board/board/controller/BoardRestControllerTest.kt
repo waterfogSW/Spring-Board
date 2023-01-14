@@ -1,7 +1,7 @@
 package com.waterfogsw.board.board.controller
 
-import NUMBER
-import STRING
+import com.waterfogsw.board.restdoc.NUMBER
+import com.waterfogsw.board.restdoc.STRING
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.waterfogsw.board.board.dto.BoardCreateRequest
 import com.waterfogsw.board.board.dto.BoardGetDetailResponse

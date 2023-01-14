@@ -3,10 +3,10 @@ package com.waterfogsw.board.post.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.waterfogsw.board.core.common.exception.AuthenticationException;
-import com.waterfogsw.board.core.common.exception.NotFoundException;
 import com.waterfogsw.board.core.board.domain.Board;
 import com.waterfogsw.board.core.board.repository.BoardRepository;
+import com.waterfogsw.board.core.common.exception.AuthenticationException;
+import com.waterfogsw.board.core.common.exception.NotFoundException;
 import com.waterfogsw.board.core.post.entity.Post;
 import com.waterfogsw.board.core.post.repository.PostRepository;
 import com.waterfogsw.board.core.user.domain.User;

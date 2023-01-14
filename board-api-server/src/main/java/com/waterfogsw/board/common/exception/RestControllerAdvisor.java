@@ -26,5 +26,4 @@ public class RestControllerAdvisor {
     log.debug("exception={}, message={}", e.getClass(), e.getMessage());
   }
 
-
 }

@@ -1,14 +1,10 @@
 package com.waterfogsw.board.board.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.waterfogsw.board.board.dto.BoardCreateRequest
-import com.waterfogsw.board.board.dto.BoardGetDetailResponse
-import com.waterfogsw.board.board.dto.BoardUpdateRequest
+import com.waterfogsw.board.board.dto.*
 import com.waterfogsw.board.board.service.BoardCommandService
 import com.waterfogsw.board.board.service.BoardQueryService
-import com.waterfogsw.board.common.auth.Authentication
-import com.waterfogsw.board.common.auth.AuthenticationContextHolder
-import com.waterfogsw.board.common.auth.AuthenticationTokenResolver
+import com.waterfogsw.board.common.auth.*
 import com.waterfogsw.board.core.user.domain.Role
 import com.waterfogsw.board.user.dto.UserInfo
 import com.waterfogsw.board.util.restdoc.*

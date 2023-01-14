@@ -1,8 +1,6 @@
 package com.waterfogsw.board.util.restdoc
 
-import org.springframework.restdocs.request.ParameterDescriptor
-import org.springframework.restdocs.request.PathParametersSnippet
-import org.springframework.restdocs.request.RequestDocumentation
+import org.springframework.restdocs.request.*
 
 class RestDocParam(
   val descriptor: ParameterDescriptor

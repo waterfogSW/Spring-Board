@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class BoardChatApplication
 
 fun main(args: Array<String>) {
-    runApplication<BoardChatApplication>(*args)
+  runApplication<BoardChatApplication>(*args)
 }

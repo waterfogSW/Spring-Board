@@ -20,7 +20,8 @@ public abstract class BaseRepositoryTest {
   static final MySQLContainer<?> MY_SQL_CONTAINER;
 
   static {
-    TestcontainersConfiguration.getInstance().updateUserConfig("testcontainers.reuse.enable", "true");
+    TestcontainersConfiguration.getInstance()
+                               .updateUserConfig("testcontainers.reuse.enable", "true");
     MY_SQL_CONTAINER = new MySQLContainer<>("mysql:8").withReuse(true);
   }
 

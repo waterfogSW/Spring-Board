@@ -5,6 +5,7 @@ import com.waterfogsw.board.restdoc.STRING
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.waterfogsw.board.board.dto.BoardCreateRequest
 import com.waterfogsw.board.board.dto.BoardGetDetailResponse
+import com.waterfogsw.board.board.dto.BoardUpdateRequest
 import com.waterfogsw.board.board.service.BoardCommandService
 import com.waterfogsw.board.board.service.BoardQueryService
 import com.waterfogsw.board.common.auth.Authentication
@@ -25,8 +26,12 @@ import org.springframework.boot.test.mock.mockito.MockBeans
 import org.springframework.http.MediaType
 import org.springframework.restdocs.ManualRestDocumentation
 import org.springframework.restdocs.RestDocumentationExtension
+import org.springframework.restdocs.request.RequestDocumentation.parameterWithName
+import org.springframework.restdocs.request.RequestDocumentation.pathParameters
+import org.springframework.test.web.servlet.delete
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
+import org.springframework.test.web.servlet.put
 import org.springframework.web.context.WebApplicationContext
 import java.time.LocalDateTime
 
@@ -152,6 +157,52 @@ class BoardRestControllerTest(
                     "createdAt" type STRING means "게시판 생성일" isOptional false,
                   ))
             )
+      }
+    }
+  }
+
+  describe("PUT : /api/v1/boards/{id}") {
+    val url = "/api/v1/boards/{id}"
+    context("유효한 요청이 전달되면") {
+      val id = 1L
+      val authentication = Authentication(1L, Role.USER)
+      AuthenticationContextHolder.setAuthentication(authentication)
+
+      val requestBody = BoardUpdateRequest("Test", "Test")
+      val requestJson = mapper.writeValueAsString(requestBody)
+      it("200 응답") {
+        mockMvc
+            .put(url, id) {
+              contentType = MediaType.APPLICATION_JSON
+              content = requestJson
+            }
+            .andExpect {
+              status { isOk() }
+            }
+            .andDocument(
+              "Update Board", (
+                  requestBody(
+                    "title" type STRING means "게시판 이름" isOptional false,
+                    "description" type STRING means "게시판 설명" isOptional true
+                  ))
+            )
+      }
+    }
+  }
+
+  describe("DELETE : /api/v1/boards/{id}") {
+    val url = "/api/v1/boards/{id}"
+    context("유효한 요청이 전달되면") {
+      val id = 1L
+      val authentication = Authentication(1L, Role.USER)
+      AuthenticationContextHolder.setAuthentication(authentication)
+
+      it("200 응답") {
+        mockMvc
+            .delete(url, id)
+            .andExpect {
+              status { isOk() }
+            }
       }
     }
   }

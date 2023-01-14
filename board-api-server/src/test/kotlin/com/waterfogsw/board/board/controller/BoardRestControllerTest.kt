@@ -1,7 +1,5 @@
 package com.waterfogsw.board.board.controller
 
-import com.waterfogsw.board.restdoc.NUMBER
-import com.waterfogsw.board.restdoc.STRING
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.waterfogsw.board.board.dto.BoardCreateRequest
 import com.waterfogsw.board.board.dto.BoardGetDetailResponse
@@ -23,15 +21,12 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.boot.test.mock.mockito.MockBeans
+import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
 import org.springframework.restdocs.ManualRestDocumentation
 import org.springframework.restdocs.RestDocumentationExtension
-import org.springframework.restdocs.request.RequestDocumentation.parameterWithName
-import org.springframework.restdocs.request.RequestDocumentation.pathParameters
-import org.springframework.test.web.servlet.delete
-import org.springframework.test.web.servlet.get
-import org.springframework.test.web.servlet.post
-import org.springframework.test.web.servlet.put
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.request
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.web.context.WebApplicationContext
 import java.time.LocalDateTime
 
@@ -62,22 +57,20 @@ class BoardRestControllerTest(
 
   describe("POST : /api/v1/boards") {
     val url = "/api/v1/boards"
-    context("유효한 요청이 전달되면") {
+    context("유효한 요청이 전달 되면") {
       val authentication = Authentication(1L, Role.USER)
       AuthenticationContextHolder.setAuthentication(authentication)
 
       val requestBody = BoardCreateRequest("Test", "Test")
       val requestJson = mapper.writeValueAsString(requestBody)
+      val request = request(HttpMethod.POST, url)
+          .contentType(MediaType.APPLICATION_JSON)
+          .content(requestJson)
 
       it("201 응답") {
         mockMvc
-            .post(url) {
-              contentType = MediaType.APPLICATION_JSON
-              content = requestJson
-            }
-            .andExpect {
-              status { isCreated() }
-            }
+            .perform(request)
+            .andExpect(status().isCreated)
             .andDocument(
               "Create Board", (
                   requestBody(
@@ -96,16 +89,14 @@ class BoardRestControllerTest(
       titles.forEach { title ->
         val requestBody = BoardCreateRequest(title, "Test")
         val requestJson = mapper.writeValueAsString(requestBody)
+        val request = request(HttpMethod.POST, url)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(requestJson)
 
         it("400 응답") {
           mockMvc
-              .post(url) {
-                contentType = MediaType.APPLICATION_JSON
-                content = requestJson
-              }
-              .andExpect {
-                status { isBadRequest() }
-              }
+              .perform(request)
+              .andExpect(status().isBadRequest)
         }
       }
     }
@@ -118,16 +109,14 @@ class BoardRestControllerTest(
       descriptions.forEach { description ->
         val requestBody = BoardCreateRequest("Test", description)
         val requestJson = mapper.writeValueAsString(requestBody)
+        val request = request(HttpMethod.POST, url)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(requestJson)
 
         it("400 응답") {
           mockMvc
-              .post(url) {
-                contentType = MediaType.APPLICATION_JSON
-                content = requestJson
-              }
-              .andExpect {
-                status { isBadRequest() }
-              }
+              .perform(request)
+              .andExpect(status().isBadRequest)
         }
       }
     }
@@ -135,27 +124,29 @@ class BoardRestControllerTest(
 
   describe("GET : /api/v1/boards/{id}") {
     val url = "/api/v1/boards/{id}"
-    context("유효한 요청이 전달되면") {
+    context("유효한 요청이 전달 되면") {
       val id = 1L
-      val response = getTestBoardGetDetailResponse()
+      val request = request(HttpMethod.GET, url, id)
       it("200 응답") {
+        val response = getTestBoardGetDetailResponse()
         given(queryService.getDetail(anyLong())).willReturn(response)
         mockMvc
-            .get(url, id)
-            .andExpect {
-              status { isOk() }
-            }
+            .perform(request)
+            .andExpect(status().isOk)
             .andDocument(
-              "Lookup Board", (
-                  responseBody(
-                    "id" type NUMBER means "게시판 번호" isOptional false,
-                    "title" type STRING means "게시판 제목" isOptional false,
-                    "description" type STRING means "게시판 제목" isOptional true,
-                    "creatorInfo.id" type NUMBER means "게시판 생성자 번호" isOptional false,
-                    "creatorInfo.name" type STRING means "게시판 생성자 이름" isOptional false,
-                    "creatorInfo.imageUrl" type STRING means "게시판 생성자 이미지 URL" isOptional false,
-                    "createdAt" type STRING means "게시판 생성일" isOptional false,
-                  ))
+              "Lookup Board",
+              pathParameters(
+                "id" pathMeans "게시판 번호"
+              ),
+              responseBody(
+                "id" type NUMBER means "게시판 번호" isOptional false,
+                "title" type STRING means "게시판 제목" isOptional false,
+                "description" type STRING means "게시판 제목" isOptional true,
+                "creatorInfo.id" type NUMBER means "게시판 생성자 번호" isOptional false,
+                "creatorInfo.name" type STRING means "게시판 생성자 이름" isOptional false,
+                "creatorInfo.imageUrl" type STRING means "게시판 생성자 이미지 URL" isOptional false,
+                "createdAt" type STRING means "게시판 생성일" isOptional false,
+              )
             )
       }
     }
@@ -163,28 +154,29 @@ class BoardRestControllerTest(
 
   describe("PUT : /api/v1/boards/{id}") {
     val url = "/api/v1/boards/{id}"
-    context("유효한 요청이 전달되면") {
-      val id = 1L
+    context("유효한 요청이 전달 되면") {
       val authentication = Authentication(1L, Role.USER)
       AuthenticationContextHolder.setAuthentication(authentication)
 
+      val id = 1L
       val requestBody = BoardUpdateRequest("Test", "Test")
       val requestJson = mapper.writeValueAsString(requestBody)
+      val request = request(HttpMethod.PUT, url, id)
+          .contentType(MediaType.APPLICATION_JSON)
+          .content(requestJson)
       it("200 응답") {
         mockMvc
-            .put(url, id) {
-              contentType = MediaType.APPLICATION_JSON
-              content = requestJson
-            }
-            .andExpect {
-              status { isOk() }
-            }
+            .perform(request)
+            .andExpect(status().isOk)
             .andDocument(
-              "Update Board", (
-                  requestBody(
-                    "title" type STRING means "게시판 이름" isOptional false,
-                    "description" type STRING means "게시판 설명" isOptional true
-                  ))
+              "Update Board",
+              pathParameters(
+                "id" pathMeans "게시판 번호"
+              ),
+              requestBody(
+                "title" type STRING means "게시판 이름" isOptional false,
+                "description" type STRING means "게시판 설명" isOptional true
+              )
             )
       }
     }
@@ -192,17 +184,23 @@ class BoardRestControllerTest(
 
   describe("DELETE : /api/v1/boards/{id}") {
     val url = "/api/v1/boards/{id}"
-    context("유효한 요청이 전달되면") {
-      val id = 1L
+    context("유효한 요청이 전달 되면") {
       val authentication = Authentication(1L, Role.USER)
       AuthenticationContextHolder.setAuthentication(authentication)
 
+      val id = 1L
+      val request = request(HttpMethod.DELETE, url, id)
+
       it("200 응답") {
         mockMvc
-            .delete(url, id)
-            .andExpect {
-              status { isOk() }
-            }
+            .perform(request)
+            .andExpect(status().isOk)
+            .andDocument(
+              "Delete Board",
+              pathParameters(
+                "id" pathMeans "게시판 번호"
+              )
+            )
       }
     }
   }

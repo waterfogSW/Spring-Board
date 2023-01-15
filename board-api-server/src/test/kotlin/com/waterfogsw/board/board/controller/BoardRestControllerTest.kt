@@ -9,7 +9,6 @@ import com.waterfogsw.board.core.user.domain.Role
 import com.waterfogsw.board.user.dto.UserInfo
 import com.waterfogsw.board.util.restdoc.*
 import io.kotest.core.spec.style.DescribeSpec
-import io.mockk.mockkObject
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.ArgumentMatchers.anyLong
 import org.mockito.BDDMockito.given
@@ -44,11 +43,7 @@ class BoardRestControllerTest(
   val restDocumentation = ManualRestDocumentation()
   val mockMvc = restDocMockMvcBuild(context, restDocumentation)
 
-  beforeEach {
-    mockkObject(commandService)
-    mockkObject(queryService)
-    restDocumentation.beforeTest(javaClass, it.name.testName)
-  }
+  beforeEach { restDocumentation.beforeTest(javaClass, it.name.testName) }
   afterEach { restDocumentation.afterTest() }
 
   describe("POST : /api/v1/boards") {

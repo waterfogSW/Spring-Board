@@ -27,7 +27,7 @@ class RestDocField(
   }
 }
 
-infix fun String.type(
+infix fun String.fieldType(
   docsFieldType: DocsFieldType
 ): RestDocField {
   return createField(this, docsFieldType.type)
